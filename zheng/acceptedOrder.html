@@ -31,12 +31,14 @@
             </div>
             <script type="text/javascript">
                 function displayDetails(obj) {
-                    var alerts=obj.parentNode
-                    // console.log(e)
                     var html='<div id="myAlert" class="alert alert-success">\n' +
                         '    <a href="#" class="close" data-dismiss="alert">&times;</a>\n' +
-                        '    <strong>详情</strong><br>写什么详情呢？' +
-                        '</div>'
+                        '    <strong>物品</strong><br>可口可乐x1 ￥3.00<br>黄金脆皮鸡x1 ￥996.00<br>'+
+                        '<strong>赏金</strong><br>￥0.99<br>'+
+                        '<strong>地址</strong><br>五栋5B666<br>'+
+                        '<strong>期望时间</strong><br>13:20<br>' +
+                        '<strong>留言</strong><br>阔落不冰怎么喝'
+                    '</div>'
                     obj.insertAdjacentHTML('beforeBegin',html)
                 }
 
