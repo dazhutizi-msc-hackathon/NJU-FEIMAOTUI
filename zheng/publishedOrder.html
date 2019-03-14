@@ -36,10 +36,22 @@
                     <div style="float:left">黄金脆皮鸡</div><div style="float: right;">x1</div><br>
                     <div style="float: right;">支付金额: ￥999.99</div><br>
                     <div class="btn-group" style="float: right">
-                        <button type="button" class="btn btn-default">订单详情</button>
+                        <button type="button" class="btn btn-default" onclick="displayDetails(this.parentNode)">订单详情</button>
                         <button type="button" class="btn btn-default">按钮 3</button>
                         <button type="button" class="btn btn-success">评价</button>
                     </div>
+                <script type="text/javascript">
+                    function displayDetails(obj) {
+                        var alerts=obj.parentNode
+                        // console.log(e)
+                        var html='<div id="myAlert" class="alert alert-success">\n' +
+                            '    <a href="#" class="close" data-dismiss="alert">&times;</a>\n' +
+                            '    <strong>详情</strong><br>写什么详情呢？' +
+                            '</div>'
+                        obj.insertAdjacentHTML('beforeBegin',html)
+                    }
+
+                </script>
                 <br>
                 </p>
 
@@ -60,7 +72,7 @@
                 <div style="float:left">白金脆皮鸭</div><div style="float: right;">x1</div><br>
                 <div style="float: right;">支付金额: ￥666.66</div><br>
                 <div class="btn-group" style="float: right">
-                    <button type="button" class="btn btn-default">订单详情</button>
+                    <button type="button" class="btn btn-default" onclick="displayDetails(this.parentNode)">订单详情</button>
                     <button type="button" class="btn btn-default">按钮 3</button>
                     <button type="button" class="btn btn-success" onclick="confirmBtn()">确认收货</button>
                 </div>
@@ -85,7 +97,7 @@
                 <div style="float: right;">支付金额: ￥888.88</div><br>
                 <div class="btn-group" style="float: right">
 
-                    <button type="button" class="btn btn-default">订单详情</button>
+                    <button type="button" class="btn btn-default" onclick="displayDetails(this.parentNode)">订单详情</button>
                     <button type="button" class="btn btn-default">按钮 3</button>
                     <button type="button" class="btn btn-success">取消订单</button>
                 </div>
