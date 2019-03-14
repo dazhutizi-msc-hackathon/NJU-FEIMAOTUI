@@ -21,6 +21,13 @@ function displayDetails(obj) {
 function addComment(obj) {
     var html='<div class="form-group comment">\n' +
         '                <textarea class="form-control" rows="4" style="resize:none"></textarea>\n' +
+        '                    <div style="float:right;">\n' +
+        '                        <label class="radio-inline"><input type="radio" name="commentRadio">1</label>\n' +
+        '                        <label class="radio-inline"><input type="radio" name="commentRadio">2</label>\n' +
+        '                        <label class="radio-inline"><input type="radio" name="commentRadio">3</label>\n' +
+        '                        <label class="radio-inline"><input type="radio" name="commentRadio">4</label>\n' +
+        '                        <label class="radio-inline"><input type="radio" name="commentRadio" checked>5</label>\n' +
+        '                    </div>'+' <br><br>\n' +
         '                <button type="button" class="btn btn-success pushCommentBtn" style="float: right;"onclick="pushComment(this)">提交</button>\n' +
         '            </div>'
     obj.insertAdjacentHTML('afterEnd',html)
