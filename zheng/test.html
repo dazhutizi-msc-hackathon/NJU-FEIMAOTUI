@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="bootstrap-datetimepicker.css">
+    <script src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
+    <script src="bootstrap-datetimepicker.js"></script>
+</head>
+<body>
+    <input type="button" class="time" id="datetimepicker" value="请选择时间">
+    <script language="JavaScript" type="text/javascript">
+        $('#datetimepicker').datetimepicker({
+            step: 10,
+            format: 'H:i',
+            closeOnDateSelect: false
+        });
+    </script>
+</body>
+</html>
