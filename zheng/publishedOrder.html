@@ -6,17 +6,7 @@
     <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
     <script src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
     <script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
-    <script type="text/javascript">
-        function confirmBtn() {
-            var result = confirm("确认要完成订单吗？");
-            if (result == true) {
-                alert("You choose YES! Great!");
-                location.reload()
-            } else {
-                alert("What a bitch you are !");
-            }
-        }
-    </script>
+    <script src="publishedOrder.js"></script>
 </head>
 <body>
     <div id="publishedList">
@@ -38,22 +28,9 @@
                     <div class="btn-group" style="float: right">
                         <button type="button" class="btn btn-default" onclick="displayDetails(this.parentNode)">订单详情</button>
                         <button type="button" class="btn btn-default">按钮 3</button>
-                        <button type="button" class="btn btn-success">评价</button>
+                        <button type="button" class="btn btn-success" onclick="addComment(this.parentNode)">评价</button>
                     </div>
-                <script type="text/javascript">
-                    function displayDetails(obj) {
-                        var html='<div id="myAlert" class="alert alert-success">\n' +
-                            '    <a href="#" class="close" data-dismiss="alert">&times;</a>\n' +
-                            '    <strong>物品</strong><br>可口可乐x1 ￥3.00<br>黄金脆皮鸡x1 ￥996.00<br>'+
-                                '<strong>赏金</strong><br>￥0.99<br>'+
-                            '<strong>地址</strong><br>五栋5B666<br>'+
-                            '<strong>期望时间</strong><br>13:20<br>' +
-                                '<strong>留言</strong><br>阔落不冰怎么喝'
-                            '</div>'
-                        obj.insertAdjacentHTML('beforeBegin',html)
-                    }
 
-                </script>
                 <br>
                 </p>
 
@@ -101,7 +78,7 @@
 
                     <button type="button" class="btn btn-default" onclick="displayDetails(this.parentNode)">订单详情</button>
                     <button type="button" class="btn btn-default">按钮 3</button>
-                    <button type="button" class="btn btn-success">取消订单</button>
+                    <button type="button" class="btn btn-success" onclick="cancelBtn()">取消订单</button>
                 </div>
                 <br>
                 </p>
