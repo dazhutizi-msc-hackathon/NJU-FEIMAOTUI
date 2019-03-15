@@ -2,11 +2,12 @@
     require('mysqlcfg.php');
 
     class Mysql{
+
         var $conn;
         var $connected = false;
         function connect(){
             $this->close();
-            if(!($this->conn = mysqli_connect("localhost", $DATABASE_USERNAME, $DATABASE_PASSWORD, $DATABASE_NAME))){
+            if(!($this->conn = mysqli_connect("localhost", $GLOBALS['DATABASE_USERNAME'], $GLOBALS['DATABASE_PASSWORD'], $GLOBALS['DATABASE_NAME']))){
                 return false;
             }
             mysqli_query($this->conn, "set names utf8");
@@ -38,6 +39,9 @@
                 $queryString .= " limit " . $limit;
             }
             $query = mysqli_query($this->conn, $queryString);
+            if(!$query){
+                return 0;
+            }
             $count = 0;
             while($row = mysqli_fetch_array($query, MYSQLI_ASSOC)){
                 array_push($result, $row);

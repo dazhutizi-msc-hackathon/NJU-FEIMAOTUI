@@ -7,7 +7,7 @@
     require("php/mysql.php");
 
     if(isPostParaMissing("op")){
-        exit($error->$OP_REQUIRED);
+        exit($error->OP_REQUIRED);
     }
 
     if(function_exists('op_'.$_POST["op"])){
@@ -15,6 +15,6 @@
         exit($op_function());
     }
     else{
-        exit($error->$OP_ERROR);
+        exit($error->OP_ERROR);
     }
 ?>
