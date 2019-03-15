@@ -32,9 +32,9 @@ html, body {
     bottom: 3px;
     left: 0px;
 }
-#inPage iframe{
+#inPage .oPages{
     display: none;
 }
-#inPage iframe.content{
+#inPage .oPages.content{
     display: block;
 }

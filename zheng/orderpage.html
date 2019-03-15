@@ -3,8 +3,14 @@
 <head>
     <meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no" />
     <title>订单</title>
+    <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
+    <script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <link href="orderpage.css" type="text/css" rel="stylesheet">
     <script src="orderpage.js"></script>
+    <script src="publishedOrder.js"></script>
+    <!--<script src="pushOrder.js"></script>-->
+    <script src="acceptedOrder.js"></script>
 </head>
 <body>
 
@@ -17,9 +23,264 @@
     </div>
 
     <div id="inPage">
-        <iframe class="content" src="publishedOrder.html" width="100%" height="100%" frameborder="0"></iframe>
-        <iframe src="acceptedOrder.html" width="100%" height="100%" frameborder="0"></iframe>
-        <iframe src="pushOrder.html" width="100%" height="100%" frameborder="0"></iframe>
+
+        <div id="publishedOrder" class="content oPages" style="width: 100%;height: 100%;">
+
+            <div id="publishedList">
+
+                <div class="list-group">
+                    <a href="#" class="list-group-item active">
+                        <h4 class="list-group-item-heading">
+                            2019/3/13 16:42的订单
+                        </h4>
+                    </a>
+                    <a href="#" class="list-group-item">
+                        <h4 class="list-group-item-heading">
+                            已完成
+                        </h4>
+                        <p class="list-group-item-text">
+                        <div style="float:left">可口可乐</div><div style="float: right;">x1</div><br>
+                        <div style="float:left">黄金脆皮鸡</div><div style="float: right;">x1</div><br>
+                        <div style="float: right;">支付金额: ￥999.99</div><br>
+                        <div class="btn-group" style="float: right">
+                            <button type="button" class="btn btn-default" onclick="displayDetails(this.parentNode)">订单详情</button>
+                            <button type="button" class="btn btn-default">按钮 3</button>
+                            <button type="button" class="btn btn-success" onclick="addComment(this.parentNode)">评价</button>
+                        </div>
+                        <br>
+                        </p>
+
+                    </a>
+                </div>
+                <div class="list-group">
+                    <a href="#" class="list-group-item active">
+                        <h4 class="list-group-item-heading">
+                            2019/3/13 16:42的订单
+                        </h4>
+                    </a>
+                    <a href="#" class="list-group-item">
+                        <h4 class="list-group-item-heading">
+                            李先生 16666666666 正在进行
+                        </h4>
+                        <p class="list-group-item-text">
+                        <div style="float:left">百事可乐</div><div style="float: right;">x1</div><br>
+                        <div style="float:left">白金脆皮鸭</div><div style="float: right;">x1</div><br>
+                        <div style="float: right;">支付金额: ￥666.66</div><br>
+                        <div class="btn-group" style="float: right">
+                            <button type="button" class="btn btn-default" onclick="displayDetails(this.parentNode)">订单详情</button>
+                            <button type="button" class="btn btn-default">按钮 3</button>
+                            <button type="button" class="btn btn-success" onclick="confirmBtn()">确认收货</button>
+                        </div>
+                        <br>
+                        </p>
+
+                    </a>
+                </div>
+                <div class="list-group">
+                    <a href="#" class="list-group-item active">
+                        <h4 class="list-group-item-heading">
+                            2019/3/13 16:42的订单
+                        </h4>
+                    </a>
+                    <a href="#" class="list-group-item">
+                        <h4 class="list-group-item-heading">
+                            未接单
+                        </h4>
+                        <p class="list-group-item-text">
+                        <div style="float:left">雪碧</div><div style="float: right;">x1</div><br>
+                        <div style="float:left">铂金脆皮鹅</div><div style="float: right;">x1</div><br>
+                        <div style="float: right;">支付金额: ￥888.88</div><br>
+                        <div class="btn-group" style="float: right">
+
+                            <button type="button" class="btn btn-default" onclick="displayDetails(this.parentNode)">订单详情</button>
+                            <button type="button" class="btn btn-default">按钮 3</button>
+                            <button type="button" class="btn btn-success" onclick="cancelBtn()">取消订单</button>
+                        </div>
+                        <br>
+                        </p>
+
+                    </a>
+                </div>
+
+
+            </div>
+
+
+        </div>
+        <div id="acceptedOrder" class="oPages" style="width: 100%;height: 100%;">
+
+            <div id="acceptedList">
+
+                <div class="list-group">
+                    <a href="#" class="list-group-item active">
+                        <h4 class="list-group-item-heading">
+                            2019/3/13 16:42
+                        </h4>
+                    </a>
+                    <a href="#" class="list-group-item">
+                        <h4 class="list-group-item-heading">
+                            李先生 16666666666 正在进行
+                        </h4>
+                        <p class="list-group-item-text">
+                        <div style="float:left">百事可乐</div><div style="float: right;">x1</div><br>
+                        <div style="float:left">白金脆皮鸭</div><div style="float: right;">x1</div><br>
+                        <div style="float: right;">支付金额: ￥666.66</div><br>
+                        <div class="btn-group" style="float: right">
+                            <button type="button" class="btn btn-default" onclick="displayDetails(this.parentNode)">订单详情</button>
+                            <button type="button" class="btn btn-default">按钮 3</button>
+                            <button type="button" class="btn btn-success" onclick="arriveBtn()">送达</button>
+                        </div>
+
+                        <br>
+                        </p>
+
+                    </a>
+                </div>
+
+                <div class="list-group">
+                    <a href="#" class="list-group-item active">
+                        <h4 class="list-group-item-heading">
+                            2019/3/13 16:42
+                        </h4>
+                    </a>
+                    <a href="#" class="list-group-item">
+                        <h4 class="list-group-item-heading">
+                            已完成
+                        </h4>
+                        <p class="list-group-item-text">
+                        <div style="float:left">可口可乐</div><div style="float: right;">x1</div><br>
+                        <div style="float:left">黄金脆皮鸡</div><div style="float: right;">x1</div><br>
+                        <div style="float: right;">支付金额: ￥999.99</div><br>
+                        <div class="btn-group" style="float: right">
+                            <button type="button" class="btn btn-default" onclick="displayDetails(this.parentNode)">订单详情</button>
+                            <button type="button" class="btn btn-default">按钮 3</button>
+                            <button type="button" class="btn btn-success" onclick="addComment(this.parentNode)">评价</button>
+                        </div>
+                        <br>
+                        </p>
+
+                    </a>
+                </div>
+                <div class="list-group">
+                    <a href="#" class="list-group-item active">
+                        <h4 class="list-group-item-heading">
+                            2019/3/13 16:42
+                        </h4>
+                    </a>
+                    <a href="#" class="list-group-item">
+                        <h4 class="list-group-item-heading">
+                            已完成
+                        </h4>
+                        <p class="list-group-item-text">
+                        <div style="float:left">可口可乐</div><div style="float: right;">x1</div><br>
+                        <div style="float:left">黄金脆皮鸡</div><div style="float: right;">x1</div><br>
+                        <div style="float: right;">支付金额: ￥999.99</div><br>
+                        <div class="btn-group" style="float: right">
+                            <button type="button" class="btn btn-default" onclick="displayDetails(this.parentNode)">订单详情</button>
+                            <button type="button" class="btn btn-default">按钮 3</button>
+                            <button type="button" class="btn btn-success" onclick="addComment(this.parentNode)">评价</button>
+                        </div>
+                        <br>
+                        </p>
+
+                    </a>
+                </div>
+
+
+            </div>
+
+
+        </div>
+        <div id="pushOrder" class="oPages" style="width: 100%;height: 100%;">
+
+            <div class="container">
+                <form class="form-horizontal" role="form">
+                    <div class="form-group">
+                        <label class="col-xs-3 control-label">跑腿类型</label>
+                        <div class="col-xs-9">
+                            <select class="form-control" id="runType">
+                                <option value="0">类型1</option>
+                                <option value="1">类型2</option>
+                                <option value="2">类型3</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-xs-3 control-label">物品</label>
+                        <div class="col-xs-9" id="items">
+                            <textarea class="form-control" rows="4" style="resize:none"></textarea>
+                            <!--<div class="row item" role="form" style="margin-bottom: 10px">-->
+                                <!--<div class="col-xs-6">-->
+                                    <!--<label class="sr-only">物品名称</label>-->
+                                    <!--<input type="text" class="form-control">-->
+                                <!--</div>-->
+                                <!--<div class="col-xs-3">-->
+                                    <!--<label type="control-label">数量</label>-->
+                                <!--</div>-->
+                                <!--<div class="col-xs-3">-->
+                                    <!--<label class="sr-only">物品数量</label>-->
+                                    <!--<input type="number" class="form-control" min="1" value="1">-->
+                                <!--</div>-->
+
+                            <!--</div>-->
+
+                            <!--<button class="btn btn-info" type="button" title="新增" id="incItemBtn" onclick="incItem(this)">-->
+                                <!--<span class="glyphicon glyphicon-plus"></span>-->
+                            <!--</button>-->
+                            <!--<button class="btn btn-info" type="button" title="删除" id="decItemBtn" >-->
+                                <!--<span class="glyphicon glyphicon-minus"></span>-->
+                            <!--</button>-->
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-xs-3 control-label">花费(元)</label>
+                        <div class="col-xs-3">
+                            <input type="number" class="form-control" min="0" step="0.01">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-xs-3 control-label">赏金(元)</label>
+                        <div class="col-xs-3">
+                            <input type="number" class="form-control" value="3" min="0" step="0.01">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-xs-3 control-label">期望送达时间</label>
+                        <div class="col-xs-9">
+                            <input type="time" class="form-control" value="22:20">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-xs-3 control-label">自动取消时间</label>
+                        <div class="col-xs-9">
+                            <input type="time" class="form-control" value="22:10">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-xs-3 control-label">地址</label>
+                        <div class="col-xs-9">
+                            <input type="text" class="form-control">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-xs-3 control-label">留言</label>
+                        <div class="col-xs-9">
+                            <textarea class="form-control" rows="4" style="resize:none"></textarea>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-xs-offset-3 col-sm-8">
+                            <button type="submit" class="btn btn-success" >确认提交</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+
+        </div>
+
     </div>
 </body>
 </html>
