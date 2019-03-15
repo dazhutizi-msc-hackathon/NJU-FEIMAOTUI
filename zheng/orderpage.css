@@ -14,14 +14,14 @@ html, body {
 
 }
 #selectionTab h3{
-    font-size: 14px;
+    font-size: 18px;
     margin: 2px 0px 0px 0px;
     height: 28px;
     float: left;
     width: 33%;
     text-align: center;
 }
-#selectionTab h3.active{
+#selectionTab h3.actived{
     border-bottom: 1px solid darkcyan;
     color: darkcyan;
 }

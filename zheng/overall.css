@@ -1,0 +1,43 @@
+.active{
+    background-color: rgb(128,0,128);
+    color:white;
+}
+
+ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    background-color:aliceblue;
+    position:fixed;
+    bottom: 0;
+    width: 100%;
+}
+
+li{
+    float: left;
+}
+
+li a{
+    display: block;
+    color:black;
+    text-align: center;
+    text-decoration: none;
+}
+
+li a:hover,:visited{
+    text-decoration: none;
+}
+#overallPages{
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 40px;
+    bottom: 30px;
+}
+#overallPages .oaPages{
+    display: none;
+}
+#overallPages .oaPages.content{
+    display: block;
+}
