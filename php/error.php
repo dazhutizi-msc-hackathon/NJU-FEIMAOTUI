@@ -5,4 +5,5 @@
     $MYSQL_CONNECT_ERROR = json_encode(array('code' => -1, "info" => "Connect database error."));
     $LOGIN_ERROR = json_encode(array('code' => 1));
     $NOT_LOGIN = json('code', 2);
+    $NO_AUTHORIZATION = json('code', 4);
 ?>
