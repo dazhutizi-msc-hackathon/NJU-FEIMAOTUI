@@ -27,30 +27,45 @@
         <script src="infoInterface.js"></script>
     </head>
 <body>
-    <p class="list-group-item text"></p>
+
 
 <div class="btn-group" style="float:right">
         <button type="button" id="cancel" class="btn btn-default">取消</button>
-        <button class="btn btn-primary" data-toggle="modal" data-target="confirmation">确认</button>
+        <button class="btn btn-primary" type="button" onclick="confirmBillBtn()">确认</button>
 </div>
-<!-- 模态框（Modal） -->
-<div class="modal fade" id="confirmation" tabindex="-1" role="dialog" aria-labelledby="confirmationLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h4 class="modal-title" id="confirmationLabel">订单确认</h4>
-            </div>
-            <div class="modal-body">确认您准备接的订单吗?</div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
-                <button type="button" class="btn btn-primary" id="finalConfirmation">确认</button>
-            </div>
-        </div><!-- /.modal-content -->
-    </div><!-- /.modal -->
-</div>
-
 <script>
+
+function confirmBillBtn() {
+    var result = confirm("确认");
+    if (result == true) {
+        alert("You choose YES! Great!");
+        $.ajax({
+            url:"../deal.php",
+            type:"POST",
+            dataType:"JSON",
+            data:{
+                "op":"acceptInfo",
+                "id":postId
+            },
+            success:function(data){
+                if(data==0){
+                    alert("接单成功\n请按时完成任务哦");
+                }
+                else if(data==2){
+                    alert("请登录后接单!");
+                    /*这是登录界面*/
+                }
+                else if(data==3){
+                    alert("接取失败,错误未知");
+                }
+            }
+        });
+    } else {
+        alert("What a bitch you are !");
+    }
+}
 </script>
+
+
 </body>
 </html>
