@@ -1,0 +1,56 @@
+<!--- 展现若干行信息，每条信息包括
+    - 标题
+    - 发布人姓名（半匿名）
+    - 发布人评分
+    - 截止时间
+    - 预计所需时间
+    - 赏金
+    - 跑腿类型 
+## 详细信息界面
+- 如上所述
+- 接单按钮
+    - 单击一次，按钮下面出现确认信息和一个确认接单按钮
+- 确认接单按钮
+    - 接单成功，移除当前覆盖层，出现【订单详细界面】-->
+    <!DOCTYPE html>
+    <html>
+    <head>
+        <meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no" />
+       <title>总界面</title>
+       <link rel="stylesheet" href="bootstrap.min.css">
+       <link rel="stylesheet" href="overall.css">
+        <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
+       <script src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
+       <script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+        <link href="orderpage.css" type="text/css" rel="stylesheet">
+        <script src="orderpage.js"></script>
+        <script src="infoInterface.js"></script>
+    </head>
+<body>
+    <p class="list-group-item text"></p>
+
+<div class="btn-group" style="float:right">
+        <button type="button" id="cancel" class="btn btn-default">取消</button>
+        <button class="btn btn-primary" data-toggle="modal" data-target="confirmation">确认</button>
+</div>
+<!-- 模态框（Modal） -->
+<div class="modal fade" id="confirmation" tabindex="-1" role="dialog" aria-labelledby="confirmationLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="confirmationLabel">订单确认</h4>
+            </div>
+            <div class="modal-body">确认您准备接的订单吗?</div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                <button type="button" class="btn btn-primary" id="finalConfirmation">确认</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal -->
+</div>
+
+<script>
+</script>
+</body>
+</html>

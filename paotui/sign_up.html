@@ -6,23 +6,34 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>sign_up_飞毛腿</title>
 	<style>
+		body, p{margin: 0;}
 		body{ background-image:url('1.jpg'); background-size:cover; background-repeat:no-repeat; background-attachment: fixed; }
 		div.center{ padding: 100px 0; text-align:center; }
 	</style>
+<script>
+	$("document").ready(function(){
+		$("#register").click(function(){
+			$.ajax({
+				
+
+			});
+		});
+	});
+
+</script>
 </head>
 <body>
 	<div class="center">
-		<form action="">
 			<h3>登陆</h3>
 			<br>
-			<p align="center">学号: </p><input type="text" name="学号"><br>
-			<p align="center">密码: </p><input type="password" name="pwd"><br>
-			<p align="center">手机号: </p><input type="text" name="tel_num"><br>
-			<p align="center">真实姓名: </p><input type="text" name="name"><br>
+			<p align="center">学号: </p><input type="text" name="学号" id="studentNum"><br>
+			<p align="center">密码: </p><input type="password" name="pwd" id="pwd"><br>
+			<p align="center">手机号: </p><input type="text" name="tel_num" id="tel_num"><br>
+			<p align="center">真实姓名: </p><input type="text" name="name" id="name"><br>
 			<p align="center">年级: </p>				
 				<div>					
 					<select>
-						<option>大一</option>
+						<option >大一</option>
 						<option>大二</option>
 						<option>大三</option>
 						<option>大四</option>
@@ -30,12 +41,9 @@
 						<option>博士生</option>
 					</select>
 				</div>
-			<p align="center">院系: </p><input type="text" name="major"><br>
-			<p align="center">校园卡照片: </p><img src="URL" alt="校园卡照片" height="42" width="42"><br>
-			<br>
-			<a href="">
-				<input type="submit" value="注册">
-			</a>
+			<p align="center">院系: </p><input type="text" name="major" id="major"><br>
+			<br><br>
+			<button class="btn btn-default" id="register" >注册</button>
 	</div>
 </body>
 </html>
