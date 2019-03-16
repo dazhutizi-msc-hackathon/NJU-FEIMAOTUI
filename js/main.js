@@ -50,6 +50,7 @@ function send(dat, succ){
     });
 }
 
+
 function showProgress(){
     //显示中间一个进度条，等待
     $('#progressContainer').css('display', 'block');
@@ -66,12 +67,8 @@ function displayError(){
 
 function showInfoList(){
     //获取信息列表并显示
-    $.ajax({
-        url:"deal.php",
-        type:"POST",
-        dataType:"JSON",
-        data:{"op":"getInfoList" },
-        success:function(data){
+    send({"op":"getInfoList" },
+        function(data){
             if(data['code']==2){
                 refresh();
             }
@@ -94,10 +91,7 @@ $('#information').html("");
                 $('#information').append(adding);
 
             }}
-        },
-        error:function(Error){
-            alert(Error);
-        }});
+        });
 }
 
 function showOrderList(){
@@ -154,15 +148,11 @@ function showOrderList(){
 }
 
  function showDetailedInfo(s,id){
-            $.ajax({
-                url:"deal.php",
-                type:"POST",
-                dataType:"JSON",
-                data:{
+            send({
                     "op":"getInfoById",
                     "id":id
                 },
-                success:function(data){
+                function(data){
                     var detailedInfo=data['info'];
                     var infoHtml='<br><div id="detailed" class="alert alert-success"><h4 class=\"list-group-item-heading\"></h4><p style="float:left" class="list-group-item-text">'+detailedInfo.content+'</p>'+'<div style=\"float:right\">发布时间：'+getLocalTime(detailedInfo.time)+'</div><br>'+"<p class=\"list-group-item-text\">"+'<div style="float:right">预计花费金额:'+detailedInfo.money/100+'元</div>'+"<br></p></a>"+
                         '<br><div class="btn-group" style="float:right">'+
@@ -173,7 +163,7 @@ function showOrderList(){
     
                 }
     
-            });
+            );
            
     
             };
@@ -208,16 +198,13 @@ function Login(){
 }
 
 function showOrderInPublishedBill(s,id){
-    $.ajax({
-        url:"deal.php",
-        type:"POST",
-        dataType:"JSON",
-        data:{
+    send({
+
             "op":"getOrderById",
             "id":id,
             "acceptbyme":0
         },
-        success:function(data){
+        function(data){
             if(data['code']==2){
                 refresh();
 
@@ -225,7 +212,7 @@ function showOrderInPublishedBill(s,id){
             var status;
             var detailedInfo=data['order'];
             if(detailedInfo['status']!=0){
-            $('#acceptPerson').html('接取人:'+detailedInfo.name2+'&nbsp;'+detailedInfo.phone2+"<span style=\"float:right\">发布人评分:"+detailedInfo.score2+"</span>");
+            $('#acceptPerson').html('接取人:'+detailedInfo.name2+'&nbsp;'+detailedInfo.phone2+"<span style=\"float:right\">接取人评分:"+detailedInfo.score2+"</span>");
             
         }
         if(detailedInfo['status']==0){
@@ -251,29 +238,29 @@ function showOrderInPublishedBill(s,id){
         }
 
             var infoHtml='<div id="detailedInPublished" class="alert alert-success">'+
-            "<a class=\"list-group-item active\" >"+
-    "<h4 class=\"list-group-item-heading\">"+
-        detailedInfo.title+" &yen;"+detailedInfo.gift+'<span style="color:#808080;font-size:40px;">'+'&nbsp;&nbsp;'+status+'</span>'+"<span style=\"float:right\">"+detailedInfo.type+"</span>"
-        "</h4><span class=\"list-group-item\">"+
+           '<a class="close" data-dismiss="alert"></a>'+
+    "<span class=\"list-group-item\">"+
             "<h4 class=\"list-group-item-heading\" id=\"acceptPerson\"></h4>"+
-            +'<p style="float:left" class="list-group-item-text">'+detailedInfo.content+'</p>'+"<p class=\"list-group-item-text\">"
-                +"送达截止时间: "+detailedInfo.deadline+"<br></p></span></a></div>";
+            +'<p style="float:left" class="list-group-item-text">'+detailedInfo.content+'</p>'+ '<div style=\"float:right\">发布时间：'+getLocalTime(detailedInfo.time)+'</div><br>'
+            +"<p class=\"list-group-item-text\">"
+                +"送达截止时间:"+detailedInfo.deadline+"<br></p></span></div><br>";
                 $(s).append(infoHtml);
- } }});
+ } });
 
 }
+    /*var infoHtml='<br><div id="detailed" class="alert alert-success"><h4 class=\"list-group-item-heading\"></h4><span class=\"list-group-item\"><p style="float:left" 
+    class="list-group-item-text">'+detailedInfo.content+'</p>'+'<div style=\"float:right\">发布时间：'+getLocalTime(detailedInfo.time)+'</div><br>'+"<p class=\"list-group-item-text\">"+'<div style="float:right">预计花费金额:'+detailedInfo.money/100+'</div>'+"<br></p></span></a>"+
+                        '<br><div class="btn-group" style="float:right">'+
+            '<button class="btn btn-primary" type="button" onclick="acceptInfo('+detailedInfo.id+')">确认接单</button>'+
+    '</div><br><br></div>';*/
 
 function showOrderInAcceptedBill(s,id){
-    $.ajax({
-            url:"deal.php",
-            type:"POST",
-            dataType:"JSON",
-            data:{
+    send({
                 "op":"getOrderById",
                 "id":id,
                 "acceptbyme":1
             },
-            success:function(data){
+            function(data){
                 if(data['code']==2){
                     refresh();
 
@@ -304,17 +291,14 @@ function showOrderInAcceptedBill(s,id){
     
                 
                 var infoHtml='<div id="detailedInAccepted" class="alert alert-success">'+
-                "<a class=\"list-group-item active\" >"+
-        "<h4 class=\"list-group-item-heading\">"+
-            detailedInfo.title+" &yen;"+detailedInfo.gift+'<span style="color:#808080;font-size:40px;">'+'&nbsp;&nbsp;'+detailedInfo.time+'</span>'+"<span style=\"float:right\">"+detailedInfo.type+"</span>"
-            "</h4><span class=\"list-group-item\">"+
-                "<h4 class=\"list-group-item-heading\">发布人:"+detailedInfo.name+'&nbsp;'+status+"<span style=\"float:right\">发布人评分: "+detailedInfo.score+"</span></h4>"+
-                +'<p style="float:left" class="list-group-item-text">'+detailedInfo.content+'</p>'+"<p class=\"list-group-item-text\">"+
-                    "<div style=\"float:right\">预计耗时 "+detailedInfo.lasting/60+" 分钟</div><br>"+'<div style="float:left">预计花费金额: '+detailedInfo.money+'</div>'
-                    +"送达截止时间: "+detailedInfo.deadline+"<br></p></span></a></div>";
+                '<a class="close" data-dismiss="alert"></a>'+
+                +'<p style="float:left" class="list-group-item-text">'+detailedInfo.content+'</p>'+'<div style=\"float:right\">发布时间：'+getLocalTime(detailedInfo.time)+'</div><br>'+'<div style="float:right">预计花费金额:'
+                +detailedInfo.money/100+'/div'+'<br><br>'+"<p class=\"list-group-item-text\">"+
+                    "<div style=\"float:right\">预计耗时:"+detailedInfo.lasting+"</div><br>"+'<div style="float:left">预计花费金额:'+detailedInfo.money+'</div>'
+                    +"送达截止时间:"+detailedInfo.deadline+"<br></p></span>"+'<br><br></div>';
                     $(s).append(infoHtml);
-     } }});
-                
+     } });
+
 
 }
 
@@ -396,8 +380,7 @@ function finishOrder(id){
                 displayError();
             }
         });
-    }
-}
+    }}
 
 function refresh(){
     window.location = 'http://h.chper.cn';
