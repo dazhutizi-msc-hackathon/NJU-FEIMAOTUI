@@ -2,7 +2,7 @@
     function refreshDatabase(){
         $mysql = new Mysql();
         $mysql->connect() or exit($error->MYSQL_CONNECT_ERROR);
-        $mysql->query('update '.$GLOBALS['DATABASE_INFO'].' set status=3 where status=0 and deadline<'.time());
+        $mysql->cmd('update '.$GLOBALS['DATABASE_INFO'].' set status=3 where status=0 and deadline<'.time());
         $mysql->close();
     }
     function op_login(){
@@ -21,8 +21,23 @@
         $_SESSION['name'] = $res[0]['name'];
         $_SESSION['number'] = $res[0]['number'];
         $_SESSION['score'] = $res[0]['score'];
+        $_SESSION['phone'] = $res[0]['phone'];
         $mysql->close();
         return json('code', 0, 'id', $res[0]['id']);
+    }
+    function op_logout(){
+        global $error;
+        if(isLogin()){
+            unset($_SESSION['id']);
+            unset($_SESSION['name']);
+            unset($_SESSION['number']);
+            unset($_SESSION['score']);
+            unset($_SESSION['phone']);
+            return json('code', 0);
+        }
+        else{
+            return $error->NOT_LOGIN;
+        }
     }
     function op_whoami(){
         global $error;
@@ -184,9 +199,13 @@
         $mysql->connect() or exit($error->MYSQL_CONNECT_ERROR);
         $found = $mysql->query($res, '*', $GLOBALS['DATABASE_INFO'], array('id', $id, 'status', 0), 1);
         if($found == 1){
+            if($res[0]['userid'] == $_SESSION['id']){
+                $mysql->close();
+                return $error->NO_AUTHORIZATION;
+            }
             $res = $mysql->update($GLOBALS['DATABASE_INFO'],
-                array('accepttime', time(), 'finishtime', -1, 'status', 1, 'userid2', $_SESSION['id'], 'name2', toMysqlStr($_SESSION['name']), 'phone2', toMysqlStr($_SESSION['phone'], 'score2', $_SESSION['score']),
-                array('id', $id, 'status', 0)));
+                array('accepttime', time(), 'finishtime', -1, 'status', 1, 'userid2', $_SESSION['id'], 'name2', toMysqlStr($_SESSION['name']), 'phone2', toMysqlStr($_SESSION['phone']), 'score2', $_SESSION['score']),
+                array('id', $id, 'status', 0));
             $mysql->close();
             if($res){
                 return json('code', 0);
@@ -225,10 +244,10 @@
             array('title', 'type', 'content', 'money', 'gift', 'lasting', 'deadline', 'time', 'status', 'userid', 'name', 'phone', 'score'),
             array($title, $type, $content, $money, $gift, $lasting, $deadline, time(), 0, $_SESSION['id'], toMysqlStr($_SESSION['name']), toMysqlStr($_SESSION['phone']), $_SESSION['score']));
         if($res){
-            $id = $mysql->query("select LAST_INSERT_ID");
-            $mysql->cmd('update ' . $GLOBALS['DATABASE_USER'] . ' set money=money-'. $money + $gift . 'where id=' . $_SESSION['id']);
+            $id = $mysql->cmd("select LAST_INSERT_ID");
+            $mysql->cmd('update ' . $GLOBALS['DATABASE_USER'] . ' set money=money-'. ($money + $gift) . ' where id=' . $_SESSION['id']);
             $mysql->close();
-            return json('code', 0, 'id', $id);
+            return json('c ode', 0, 'id', $id);
         }
         else{
             $mysql->close();
@@ -237,7 +256,7 @@
     }
     function op_cancelOrder(){
         global $error;
-        if(isPostParaMissing('id'){
+        if(isPostParaMissing('id')){
             return $error->PARA_REQUIRED;
         }
         if(!isLogin()){
@@ -247,6 +266,9 @@
         $mysql = new Mysql();
         $mysql->connect() or exit($error->MYSQL_CONNECT_ERROR);
         $found = $mysql->query($res, '*', $GLOBALS['DATABASE_INFO'], array('id', $id), 1);
+        $money = intval($res[0]['money']);
+        $gift = intval($res[0]['gift']);
+        $userid = intval($res[0]['userid']);
         if($found == 0){
             $mysql->close();
             return $error->NO_AUTHORIZATION;
@@ -255,23 +277,29 @@
             $mysql->close();
             return $error->NO_AUTHORIZATION;
         }
-        if(inval($res[0]['status']) >= 2){
+        if(intval($res[0]['status']) >= 2){
             $mysql->close();
-            return $mysql->CANCEL_INFO_ERROR;
+            return $error->CANCEL_INFO_ERROR;
         }
-        $res = $mysql->update($GLOBALS['DATABASE_INFO'], array('status', 3), array('id', $id));
-        $mysql->close();
+        if(intval($res[0]['status']) == 0 && $res[0]['userid'] != $_SESSION['id']){
+            $mysql->close();
+            return $error->NO_AUTHORIZATION;
+        }
+        $res = $mysql->update($GLOBALS['DATABASE_INFO'], array('status', 3, 'finishtime', time()), array('id', $id));
         if($res){
+            $res = $mysql->cmd('update ' . $GLOBALS['DATABASE_USER'] . ' set money=money+'. ($money + $gift) . ' where id=' . $userid);
+            $mysql->close();
             declineUserScore(intval($_SESSION['id']), $id);
             return json('code', 0);
         }
         else{
+            $mysql->close();
             return $error->MYSQL_CONNECT_ERROR; 
         }
     }
     function op_finishOrder(){
         global $error;
-        if(isPostParaMissing('id'){
+        if(isPostParaMissing('id')){
             return $error->PARA_REQUIRED;
         }
         if(!isLogin()){
@@ -282,6 +310,10 @@
         $mysql->connect() or exit($error->MYSQL_CONNECT_ERROR);
         $found = $mysql->query($res, '*', $GLOBALS['DATABASE_INFO'], array('id', $id), 1);
         if($found == 0){
+            $mysql->close();
+            return $error->NO_AUTHORIZATION;
+        }
+        if($res[0]['userid'] != $_SESSION['id']){
             $mysql->close();
             return $error->NO_AUTHORIZATION;
         }
@@ -291,17 +323,17 @@
         }
         if(intval($res[0]['status']) != 1){
             $mysql->close();
-            return $mysql->FINISH_ORDER_ERROR;
+            return $error->FINISH_ORDER_ERROR;
         }
         $money = intval($res[0]['money']);
         $gift = intval($res[0]['gift']);
         $userid2 = intval($res[0]['userid2']);
-        $res = $mysql->update($GLOBALS['DATABASE_INFO'], array('status', 2), array('id', $id));
+        $res = $mysql->update($GLOBALS['DATABASE_INFO'], array('status', 2, 'finishtime', time()), array('id', $id));
         if(!$res){
             $mysql->close();
             return $error->MYSQL_CONNECT_ERROR;
         }
-        $res = $mysql->cmd('update ' . $GLOBALS['DATABASE_USER'] . ' set money=money+'. $money + $gift . 'where id=' . $userid2]);
+        $res = $mysql->cmd('update ' . $GLOBALS['DATABASE_USER'] . ' set money=money+'. ($money + $gift) . ' where id=' . $userid2);
         $mysql->close();
         if(!$res){
             return $error->MYSQL_CONNECT_ERROR;

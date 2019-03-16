@@ -2,8 +2,9 @@
     background-color: rgb(128,0,128);
     color:white;
 }
-li>a.active {
-    color:white;
+li>a {
+    font-size: 2em;
+    padding: 10px 0;
 }
 
 ul {
@@ -19,6 +20,8 @@ ul {
 
 li{
     float: left;
+    width:50%;
+    text-align:center;
 }
 
 li a{
@@ -33,10 +36,10 @@ li a:hover,:visited{
 }
 #overallPages{
     width: 100%;
-    height: 100%;
-    position: absolute;
-    top: 40px;
-    bottom: 30px;
+    padding-top: 110px;
+    padding-bottom: 100px;
+    padding-left: 10px;
+    padding-right: 10px;
 }
 #overallPages .oaPages{
     display: none;
@@ -46,10 +49,6 @@ li a:hover,:visited{
 }
 #myPage{
     width: 100%;
-    height: 100%;
-    position: absolute;
-    top: 40px;
-    bottom: 30px;
     display: none;
     z-index: 98;
 }

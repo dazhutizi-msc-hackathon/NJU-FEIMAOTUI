@@ -57,7 +57,7 @@
             }
             $keys = implode(", ", $key);
             $values = implode(", ", $value);
-            $queryString = "insert into $table ($keys) VALUES($values)"
+            $queryString = "insert into $table ($keys) VALUES($values)";
             $query = mysqli_query($this->conn, $queryString);
             return $query ? 1 : 0;
         }
