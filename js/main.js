@@ -64,10 +64,10 @@ function showDetailedInfo(s,id){
             var infoHtml='<div id="detailed" class="alert alert-success">'+
             "<a class=\"list-group-item active\" >"+
     "<h4 class=\"list-group-item-heading\">"+
-        detailedInfo.title+" &yen;"+detailedInfo.gift+'<span style="color:#808080;">'+'&nbsp;&nbsp;'+'发布时间:'+detailedInfo.time+'</span>'+"<span style=\"float:right\">"+detailedInfo.type+"</span>"
+        detailedInfo.title+" &yen;"+detailedInfo.gift+'<span style="color:#808080;">'+'&nbsp;&nbsp;'+'发布时间:'+detailedInfo.time+'</span>'+"<span style=\"float:right\">"+detailedInfo.type+"</span>"+
         "</h4><span class=\"list-group-item\">"+
             "<h4 class=\"list-group-item-heading\">"+detailedInfo.name+"<span style=\"float:right\">发布人评分:"+detailedInfo.score+"</span></h4>"+
-            +'<p style="float:left" class="list-group-item-text">'+detailedInfo.content+'</p>'+"<p class=\"list-group-item-text\">"+
+            '<p style="float:left" class="list-group-item-text">'+detailedInfo.content+'</p>'+"<p class=\"list-group-item-text\">"+
                 "<div style=\"float:right\">预计耗时:"+detailedInfo.lasting+"</div><br>"+'<div style="float:left">预计花费金额:'+detailedInfo.money+'</div>'
                 +"送达截止时间:"+detailedInfo.deadline+"<br></p></span></a></div>"+
                 '<div class="btn-group" style="float:right">'+
