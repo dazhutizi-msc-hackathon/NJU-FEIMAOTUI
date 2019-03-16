@@ -11,7 +11,7 @@ function writeInfo(){
                 var adding=$('<div class="list-group" id=info[i].id></div>');
                 adding.innerHTML="<a class=\"list-group-item active\" >"+
                     "<h4 class=\"list-group-item-heading\">"+
-                        info[i].title+" &yen;"+info[i].gift+"<span style=\"float:right\">"+info[i].type+"</span>"
+                        info[i].title+" &yen;"+info[i].gift+"<span style=\"float:right\">"+info[i].type+"</span>"+
                         "</h4><span class=\"list-group-item\">"+
                             "<h4 class=\"list-group-item-heading\">"+info[i].name+"<span style=\"float:right\">发布人评分:"+info[i].score+"</span></h4>"+
                             "<p class=\"list-group-item-text\">"+
@@ -165,7 +165,7 @@ function displayDetails(obj) {
         '<strong>赏金</strong><br>￥0.99<br>'+
         '<strong>地址</strong><br>五栋5B666<br>'+
         '<strong>期望时间</strong><br>13:20<br>' +
-        '<strong>留言</strong><br>阔落不冰怎么喝'
+        '<strong>留言</strong><br>阔落不冰怎么喝' +
     '</div>';
     obj.insertAdjacentHTML('beforeBegin',html);
 }
