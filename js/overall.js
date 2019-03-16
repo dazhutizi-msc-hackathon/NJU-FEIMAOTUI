@@ -60,8 +60,9 @@ window.onload = function(){
     
     
                     /*这是登录界面*/
-                }s
+                }
                 else{
+                    
     
                 }
             }

@@ -126,6 +126,32 @@
 
 
             </div>
+            <script>
+        $.ajax({
+        url="../deal.php",
+        type="POST",
+        dataType="JSON",
+        data={
+            "op":"getOrderList",
+            "acceptbyme":1
+        },
+        success:function(data){
+            if(data.code==2){
+                /*这里是登录界面*/
+
+
+
+            }
+            else{
+                var orders = data.orders;
+                for(var i=0;i<orders.length;i++){
+                    
+                }
+            }
+
+        }
+    });
+            </script>
             <div id="acceptedOrder" class="oPages" style="width: 100%;height: 100%;">
 
                 <div id="acceptedList">
