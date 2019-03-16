@@ -11,7 +11,7 @@ function writeInfo(){
                 var adding=$('<div class="list-group" id=info[i].id></div>');
                 adding.innerHTML="<a class=\"list-group-item active\" >"+
                     "<h4 class=\"list-group-item-heading\">"+
-                        info[i].title+" &yen;"+info[i].gift+"<span style=\"float:right\">"+info[i].type+"</span>"
+                        info[i].title+" &yen;"+info[i].gift+"<span style=\"float:right\">"+info[i].type+"</span>"+
                         "</h4><span class=\"list-group-item\">"+
                             "<h4 class=\"list-group-item-heading\">"+info[i].name+"<span style=\"float:right\">发布人评分:"+info[i].score+"</span></h4>"+
                             "<p class=\"list-group-item-text\">"+
@@ -59,7 +59,7 @@ function writeInfo(){
            
     
             });
-});
+};
 
 function confirmBillBtn() {
     var result = confirm("确认");
