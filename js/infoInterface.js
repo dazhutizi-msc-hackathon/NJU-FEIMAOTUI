@@ -59,8 +59,7 @@ function writeInfo(){
            
     
             });
-};
-
+}
 function confirmBillBtn() {
     var result = confirm("确认");
     if (result == true) {
@@ -165,7 +164,7 @@ function displayDetails(obj) {
         '<strong>赏金</strong><br>￥0.99<br>'+
         '<strong>地址</strong><br>五栋5B666<br>'+
         '<strong>期望时间</strong><br>13:20<br>' +
-        '<strong>留言</strong><br>阔落不冰怎么喝'
+        '<strong>留言</strong><br>阔落不冰怎么喝' +
     '</div>';
     obj.insertAdjacentHTML('beforeBegin',html);
 }
