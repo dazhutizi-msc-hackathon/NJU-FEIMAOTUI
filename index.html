@@ -10,16 +10,6 @@
     <link href="css/orderpage.css" type="text/css" rel="stylesheet">
     <script src="js/overall.js"></script>
     <script src="js/infoInterface.js"></script>
-	<script>
-		$('#subBtn').click(function(){
-		 var id= $('#studentId').val();
-		 var pass_word = $('#pwd').val(); 
-		 var con = {number:id,password:pass_word};
-		 $.post('main.php',con,function(data){
-			var result = JSON.parse(data);
-			alert(result.message);
-			});});
-	</script>
    <style type="text/css">
    body, p{margin: 0;}
    </style>
@@ -61,7 +51,6 @@
                             <h4 class="list-group-item-heading">
                                 已完成
                             </h4>
-                            <p class="list-group-item-text">
                             <div style="float:left">可口可乐</div><div style="float: right;">x1</div><br>
                             <div style="float:left">黄金脆皮鸡</div><div style="float: right;">x1</div><br>
                             <div style="float: right;">支付金额: ￥999.99</div><br>
@@ -73,7 +62,6 @@
                                 <!--点击评价后出现的评价框是在publishedOrder.js里实现的-->
                             </div>
                             <br>
-                            </p>
 
                         </a>
                     </div>
@@ -87,7 +75,6 @@
                             <h4 class="list-group-item-heading">
                                 李先生 16666666666 正在进行
                             </h4>
-                            <p class="list-group-item-text">
                             <div style="float:left">百事可乐</div><div style="float: right;">x1</div><br>
                             <div style="float:left">白金脆皮鸭</div><div style="float: right;">x1</div><br>
                             <div style="float: right;">支付金额: ￥666.66</div><br>
@@ -97,7 +84,6 @@
                                 <button type="button" class="btn btn-success" onclick="confirmBtn()">确认收货</button>
                             </div>
                             <br>
-                            </p>
 
                         </a>
                     </div>
@@ -111,7 +97,6 @@
                             <h4 class="list-group-item-heading">
                                 未接单
                             </h4>
-                            <p class="list-group-item-text">
                             <div style="float:left">雪碧</div><div style="float: right;">x1</div><br>
                             <div style="float:left">铂金脆皮鹅</div><div style="float: right;">x1</div><br>
                             <div style="float: right;">支付金额: ￥888.88</div><br>
@@ -122,7 +107,6 @@
                                 <button type="button" class="btn btn-success" onclick="cancelBtn()">取消订单</button>
                             </div>
                             <br>
-                            </p>
 
                         </a>
                     </div>
@@ -132,37 +116,7 @@
 
 
             </div>
-            <script>
-        $.ajax({
-        url="../deal.php",
-        type="POST",
-        dataType="JSON",
-        data={
-            "op":"getOrderList",
-            "acceptbyme":1
-        },
-        success:function(data){
-            if(data.code==2){
-                /*这里是登录界面*/
 
-
-
-            }
-            else{
-                var orders = data.orders;
-                document.write('<div id="acceptedOrder" class="oPages" style="width: 100%;height: 100%;"><div id="acceptedList">');
-                for(var i=0;i<orders.length;i++){
-                    var adding=$('<div class="list-group"> </div>');
-                    adding.innerHTML='<a href="#" class="list-group-item active">'+
-                        '<h4 class="list-group-item-heading">'+orders[i].title+" &yen;"+orders[i].gift+"<span style=\"float:right\">"+
-                            orders[i].type+"</span>"+'<span class=\"list-group-item\">'+"<h4 class=\"list-group-item-heading\">"+orders[i].name+"<span style=\"float:right\">接取人姓名:"+info[i].score+"</span></h4>";
-                }
-                document.write('</div></div>');
-            }
-
-        }
-    });
-            </script>
             <div id="acceptedOrder" class="oPages" style="width: 100%;height: 100%;">
 
                 <div id="acceptedList">
@@ -177,7 +131,6 @@
                             <h4 class="list-group-item-heading">
                                 李先生 16666666666 正在进行
                             </h4>
-                            <p class="list-group-item-text">
                             <div style="float:left">百事可乐</div><div style="float: right;">x1</div><br>
                             <div style="float:left">白金脆皮鸭</div><div style="float: right;">x1</div><br>
                             <div style="float: right;">支付金额: ￥666.66</div><br>
@@ -188,7 +141,6 @@
                             </div>
 
                             <br>
-                            </p>
 
                         </a>
                     </div>
@@ -203,7 +155,6 @@
                             <h4 class="list-group-item-heading">
                                 已完成
                             </h4>
-                            <p class="list-group-item-text">
                             <div style="float:left">可口可乐</div><div style="float: right;">x1</div><br>
                             <div style="float:left">黄金脆皮鸡</div><div style="float: right;">x1</div><br>
                             <div style="float: right;">支付金额: ￥999.99</div><br>
@@ -213,7 +164,6 @@
                                 <button type="button" class="btn btn-success" onclick="addComment(this.parentNode)">评价</button>
                             </div>
                             <br>
-                            </p>
 
                         </a>
                     </div>
@@ -227,7 +177,6 @@
                             <h4 class="list-group-item-heading">
                                 已完成
                             </h4>
-                            <p class="list-group-item-text">
                             <div style="float:left">可口可乐</div><div style="float: right;">x1</div><br>
                             <div style="float:left">黄金脆皮鸡</div><div style="float: right;">x1</div><br>
                             <div style="float: right;">支付金额: ￥999.99</div><br>
@@ -237,7 +186,6 @@
                                 <button type="button" class="btn btn-success" onclick="addComment(this.parentNode)">评价</button>
                             </div>
                             <br>
-                            </p>
 
                         </a>
                     </div>
@@ -266,27 +214,6 @@
                             <label class="col-xs-3 control-label">内容</label>
                             <div class="col-xs-9" id="items">
                                 <textarea class="form-control" rows="4" style="resize:none" id="runContent"></textarea>
-                                <!--<div class="row item" role="form" style="margin-bottom: 10px">-->
-                                <!--<div class="col-xs-6">-->
-                                <!--<label class="sr-only">物品名称</label>-->
-                                <!--<input type="text" class="form-control">-->
-                                <!--</div>-->
-                                <!--<div class="col-xs-3">-->
-                                <!--<label type="control-label">数量</label>-->
-                                <!--</div>-->
-                                <!--<div class="col-xs-3">-->
-                                <!--<label class="sr-only">物品数量</label>-->
-                                <!--<input type="number" class="form-control" min="1" value="1">-->
-                                <!--</div>-->
-
-                                <!--</div>-->
-
-                                <!--<button class="btn btn-info" type="button" title="新增" id="incItemBtn" onclick="incItem(this)">-->
-                                <!--<span class="glyphicon glyphicon-plus"></span>-->
-                                <!--</button>-->
-                                <!--<button class="btn btn-info" type="button" title="删除" id="decItemBtn" >-->
-                                <!--<span class="glyphicon glyphicon-minus"></span>-->
-                                <!--</button>-->
                             </div>
                         </div>
                         <div class="form-group">
@@ -337,52 +264,41 @@
     <div id="myInfo" class="info mActive" style="text-align: center">
         <h3>个人信息</h3>
         <br>
-        <p>
-            学号: <br>
+        <p id="myinfos">
+            <!--学号: <br>
             真实姓名: <br>
             手机号: <br>
             校园卡照片: <br>
             年级: <br>
             院系: <br>
-            钱包余额: <br>
+            钱包余额: <br>-->
         </p>
         <br>
         <br>
         <div class="btn-group">
-            <button type="button" class="btn btn-info" onclick="goSignInPage()">登录/注册</button>
-            <button type="button" class="btn btn-default" onclick="goPwdChangePage()">修改密码</button>
+            <!--<button type="button" class="btn btn-info" onclick="goSignInPage()">登录/注册</button>
+            <button type="button" class="btn btn-default" onclick="goPwdChangePage()">修改密码</button>-->
+            <button type="button" class="btn btn-info" id="exitUser">确定</button>
+            <button type="button" class="btn btn-danger" id="btnLogout">退出登录</button>
 
         </div>
-        <!--<a href="sign_in.html">-->
-            <!--<input type="button" name="sign_in" value="登录/注册" id="Button3">-->
-        <!--</a>-->
-        <!--<a href="pwd_change.html">-->
-            <!--<input type="button" name="pwd_change" value="修改密码" id="Button4">-->
-        <!--</a>-->
     </div>
     <div id="signIn" class="info" style="text-align: center">
         <div class="center">
 			<h3>登录</h3>
             <br>
-            学号<br> <input type="text" id="studentId"><br>
-            密码<br> <input type="password" id="pwd"><br>
+            学号<br> <input type="text" id="number"><br>
+            密码<br> <input type="password" id="password"><br>
             <br>
             <br>
             <div class="btn-group">
-                <button type="button" class="btn btn-default" onclick="login()" id="subBtn">登录</button>
-                <button type="button" class="btn btn-default" onclick="goSignUpPage()">注册</button>
+                <button type="button" class="btn btn-default" id="btnLogin">登录</button>
+                <!--<button type="button" class="btn btn-default" onclick="goSignUpPage()">注册</button>-->
             </div>
-            <!--<a href="sign_up.html">-->
-                <!--<input type="button" name="sign_up" value="注册" id="Button1">-->
-            <!--</a>-->
-            <!--<a href="">-->
-                <!--<input type="button" name="pwd_forget" value="忘记密码" id="Button2">-->
-            <!--</a>-->
         </div>
     </div>
     <div id="signUp" class="info" style="text-align: center">
         <div class="center">
-            <form action="">
                 <h3>注册</h3>
                 <br>
                 <p align="center">学号: </p><input type="text" name="学号"><br>
@@ -405,14 +321,10 @@
                 <div class="btn-group">
                     <button type="button" class="btn btn-info" onclick="signUp()">注册</button>
                 </div>
-                <!--<a href="">-->
-                    <!--<input type="submit" value="注册">-->
-                <!--</a>-->
         </div>
     </div>
     <div id="pwdChange" class="info" style="text-align: center">
         <div class="center">
-            <form action="">
                 <h3>修改密码</h3>
                 <br>
                 <p align="center">原密码: </p><input type="password" name="学号"><br>
@@ -423,10 +335,6 @@
                 <div class="btn-group">
                     <button type="button" class="btn btn-info" onclick="changePwd()">修改</button>
                 </div>
-                <!--<a href="">-->
-                    <!--<input type="submit" value="修改">-->
-                <!--</a>-->
-            </form>
         </div>
     </div>
 
@@ -446,6 +354,7 @@
     <li><a>订单</a></li>
 </ul>
 </div>
+    <script src="/js/main.js"></script>
 
 
 </body>
