@@ -25,6 +25,15 @@
         $mysql->close();
         return json('code', 0, 'id', $res[0]['id']);
     }
+    function op_check(){
+        global $error;
+        if(isLogin()){
+            return json('code', 0);
+        }
+        else{
+            return $error->NOT_LOGIN;
+        }
+    }
     function op_logout(){
         global $error;
         if(isLogin()){
