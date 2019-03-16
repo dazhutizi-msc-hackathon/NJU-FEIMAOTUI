@@ -54,7 +54,7 @@ function confirmBillBtn() {
                     alert("接单成功\n请按时完成任务哦");
                 }
                 else if(data.code==2){
-                    alert("请登录后接单!");
+                    refresh();
                 }
                 else if(data.code==3){
                     alert("接取失败,错误未知");
