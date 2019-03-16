@@ -50,6 +50,40 @@ function send(dat, succ){
     });
 }
 
+function showDetailedInfo(s,id){
+    $.ajax({
+        url:"deal.php",
+        type:"POST",
+        dataType:"JSON",
+        data:{
+            "op":"getInfoById",
+            "id":id
+        },
+        success:function(data){
+            var detailedInfo=data['info'];
+            var infoHtml='<div id="detailed" class="alert alert-success">'+
+            "<a class=\"list-group-item active\" >"+
+    "<h4 class=\"list-group-item-heading\">"+
+        detailedInfo.title+" &yen;"+detailedInfo.gift+'<span style="color:#808080;">'+'&nbsp;&nbsp;'+'发布时间:'+detailedInfo.time+'</span>'+"<span style=\"float:right\">"+detailedInfo.type+"</span>"+
+        "</h4><span class=\"list-group-item\">"+
+            "<h4 class=\"list-group-item-heading\">"+detailedInfo.name+"<span style=\"float:right\">发布人评分:"+detailedInfo.score+"</span></h4>"+
+            '<p style="float:left" class="list-group-item-text">'+detailedInfo.content+'</p>'+"<p class=\"list-group-item-text\">"+
+                "<div style=\"float:right\">预计耗时:"+detailedInfo.lasting+"</div><br>"+'<div style="float:left">预计花费金额:'+detailedInfo.money+'</div>'
+                +"送达截止时间:"+detailedInfo.deadline+"<br></p></span></a></div>"+
+                '<div class="btn-group" style="float:right">'+
+   '<button type="button" id="cancel" class="btn btn-default" onclick="cancelBillBtn()">取消</button>'+
+    '<button class="btn btn-primary" type="button" onclick="confirmBillBtn()">确认接单</button>'+
+'</div>';
+        s.append(infoHtml);
+        
+
+        }
+
+    });
+   
+
+    };
+
 function showProgress(){
     //显示中间一个进度条，等待
 }
@@ -87,7 +121,10 @@ function showInfoList(){
                                 "送达截止时间:"+getLocalTime(info[i].deadline)+"<br>"+'</p><button class="btn btn-default" style="float:right" value=info[i].id onclick="showDetailedInfo(this.parentNode,' + info[i].id + ' )">查看</button><br><br></a>'+
                                 ''+'</a>')
                                 ;
+
+
                 $('#information').append(adding);
+
             }}
         },
         error:function(Error){
