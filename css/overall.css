@@ -3,7 +3,7 @@
     color:white;
 }
 li>a {
-    font-size: 2em;
+    font-size: 1.5em;
     padding: 10px 0;
 }
 
@@ -36,8 +36,8 @@ li a:hover,:visited{
 }
 #overallPages{
     width: 100%;
-    padding-top: 110px;
-    padding-bottom: 100px;
+    padding-top: 70px;
+    padding-bottom: 50px;
     padding-left: 10px;
     padding-right: 10px;
 }

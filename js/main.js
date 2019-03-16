@@ -111,17 +111,20 @@ function showInfoList(){
             var info=data.infos;
             for(var i=0;i<info.length;i++){
                 var adding=$('<div class="list-group" ></div>');
-                adding.innerHTML="<a class=\"list-group-item active\" >"+
+                adding.html("<a class=\"list-group-item active\" >"+
                     "<h4 class=\"list-group-item-heading\">"+
-                        info[i].title+" &yen;"+info[i].gift+"<span style=\"float:right\">"+info[i].type+"</span>"+
-                        "</h4><span class=\"list-group-item\">"+
+                        info[i].title+" &yen;"+info[i].gift / 100+"<span style=\"float:right\">"+info[i].type+"</span>"+
+                        "</h4><span class=\"list-group-item\" style=\"color: black;\">"+
                             "<h4 class=\"list-group-item-heading\">"+info[i].name+"<span style=\"float:right\">发布人评分:"+info[i].score+"</span></h4>"+
                             "<p class=\"list-group-item-text\">"+
                                 "<div style=\"float:right\">预计耗时:"+info[i].lasting+"</div><br>"+
                                 "送达截止时间:"+info[i].deadline+"<br>"+'</p></span>'+
-                                '<button class="btn btn-primary" style="float:right" value=info[i].id onclick="showDetailedInfo($(this).parent(),$(this).val())">查看</button>'+'</a><br><br><br><br>'
+                                '<button class="btn btn-primary" style="float:right" value=info[i].id onclick="showDetailedInfo($(this).parent(),$(this).val())">查看</button>'+'</a><br><br><br><br>')
                                 ;
-                (adding);
+
+
+                $('#information').append(adding);
+
             }}
         },
         error:function(Error){
@@ -129,7 +132,7 @@ function showInfoList(){
         }});
 }
 
-function showOrderListInAcceptedBill(){
+function showOrderList(){
     //获取我发布的/接取的订单列表并显示
     send({'op': 'getOrderList', 'acceptbyme': '0'}, function(data){
         par = $('#publishedList');
@@ -137,9 +140,9 @@ function showOrderListInAcceptedBill(){
         dat = data['orders'];
         str = '';
         for(i=0; i<dat.length; ++i){
-            str = str + '<div class="list-group"><a href="#" class="list-group-item active"><h4 class="list-group-item-heading">';
+            str = str + '<div class="list-group"><a href="javascript: void(0);" class="list-group-item active"><h4 class="list-group-item-heading">';
             str = str + dat[i]['title'];
-            str = str + '</h4></a><a href="#" class="list-group-item"><h4 class="list-group-item-heading">';
+            str = str + '</h4></a><a href="javascript: void(0);" class="list-group-item"><h4 class="list-group-item-heading">';
             str = str + changeStatus(dat[i]['status']) + '</h4>';
             str = str + '<div style="float:left">发布时间：' + getLocalTime(dat[i]['time']) + '</div><br>';
             str = str + '<div style="float:left">赏金：' + dat[i]['gift'] / 100 + '</div><br>';
@@ -148,7 +151,7 @@ function showOrderListInAcceptedBill(){
             if(dat[i]['accepttime']>0)str = str + '<div style="float:left">接取时间：' + getLocalTime(dat[i]['accepttime']) + '</div><br>';
             str = str + '<div style="float:left">截止时间：' + getLocalTime(dat[i]['deadline']) + '</div><br>';
             if(dat[i]['finishtime']>0)str = str + '<div style="float:left">完成时间：' + getLocalTime(dat[i]['finishtime']) + '</div><br>';
-            str = str + '<div class="btn-group" style="float: right"><button type="button" class="btn btn-default" onclick="showOrder(this.parentNode,' + dat[i]['id'] + ')">订单详情</button>';
+            str = str + '<div class="btn-group" style="float: right"><button type="button" class="btn btn-default" onclick="showOrderInPublishedBill(this.parentNode.parentNode,' + dat[i]['id'] + ')">订单详情</button>';
             if(dat[i]['status']<=1)str = str + ' <button type="button" class="btn btn-success" onclick="cancelInfo(' + dat[i]['id'] + ')">取消</button>';
             if(dat[i]['status']==1)str = str + ' <button type="button" class="btn btn-success" onclick="finishOrder(' + dat[i]['id'] + ')">送达</button>';
             str = str + '</div><br><br></a></div>';
@@ -161,9 +164,9 @@ function showOrderListInAcceptedBill(){
         dat = data['orders'];
         str = '';
         for(i=0; i<dat.length; ++i){
-            str = str + '<div class="list-group"><a href="#" class="list-group-item active"><h4 class="list-group-item-heading">';
+            str = str + '<div class="list-group"><a href="javascript: void(0);" class="list-group-item active"><h4 class="list-group-item-heading">';
             str = str + dat[i]['title'];
-            str = str + '</h4></a><a href="#" class="list-group-item"><h4 class="list-group-item-heading">';
+            str = str + '</h4></a><a href="javascript: void(0);" class="list-group-item"><h4 class="list-group-item-heading">';
             str = str + changeStatus(dat[i]['status']) + '</h4>';
             str = str + '<div style="float:left">发布时间：' + getLocalTime(dat[i]['time']) + '</div><br>';
             str = str + '<div style="float:left">赏金：' + dat[i]['gift'] / 100 + '</div><br>';
@@ -172,7 +175,7 @@ function showOrderListInAcceptedBill(){
             str = str + '<div style="float:left">接取时间：' + getLocalTime(dat[i]['accepttime']) + '</div><br>';
             str = str + '<div style="float:left">截止时间：' + getLocalTime(dat[i]['deadline']) + '</div><br>';
             if(dat[i]['finishtime']>0)str = str + '<div style="float:left">完成时间：' + getLocalTime(dat[i]['finishtime']) + '</div><br>';
-            str = str + '<div class="btn-group" style="float: right"><button type="button" class="btn btn-default" onclick="displayDetails(this.parentNode,' + dat[i]['id'] + ')">订单详情</button>';
+            str = str + '<div class="btn-group" style="float: right"><button type="button" class="btn btn-default" onclick="showOrderInAcceptedBill(this.parentNode.parentNode,' + dat[i]['id'] + ')">订单详情</button>';
             if(dat[i]['status']==1)str = str + ' <button type="button" class="btn btn-success" onclick="cancelInfo(' + dat[i]['id'] + ')">取消</button>';
             str = str + '</div><br><br></a></div>';
         }
@@ -209,12 +212,6 @@ function Login(){
     $('#password').val("");
 }
 
-function showInfo(){
-    //显示信息详情
-
-}
-
-
 function showOrderInPublishedBill(s,id){
     $.ajax({
         url:"deal.php",
@@ -233,7 +230,7 @@ function showOrderInPublishedBill(s,id){
             var status;
             var detailedInfo=data['order'];
             if(detailedInfo['status']!=0){
-            $('#acceptPerson').innerHTML='接取人:'+detailedInfo.name2+'&nbsp;'+detailedInfo.phone2+"<span style=\"float:right\">发布人评分:"+detailedInfo.score2+"</span>";
+            $('#acceptPerson').html('接取人:'+detailedInfo.name2+'&nbsp;'+detailedInfo.phone2+"<span style=\"float:right\">发布人评分:"+detailedInfo.score2+"</span>");
             
         }
         if(detailedInfo['status']==0){
@@ -266,7 +263,7 @@ function showOrderInPublishedBill(s,id){
             "<h4 class=\"list-group-item-heading\" id=\"acceptPerson\"></h4>"+
             +'<p style="float:left" class="list-group-item-text">'+detailedInfo.content+'</p>'+"<p class=\"list-group-item-text\">"
                 +"送达截止时间:"+detailedInfo.deadline+"<br></p></span></a></div>";
-                s.append(infoHtml);
+                $(s).append(infoHtml);
  } }});
 
 }
@@ -289,7 +286,7 @@ function showOrderInAcceptedBill(s,id){
                 var status;
                 var detailedInfo=data['order'];
                 if(detailedInfo['status']==0){
-                    status='未被借取';
+                    status='等待中';
                     
     
                 }
@@ -320,7 +317,7 @@ function showOrderInAcceptedBill(s,id){
                 +'<p style="float:left" class="list-group-item-text">'+detailedInfo.content+'</p>'+"<p class=\"list-group-item-text\">"+
                     "<div style=\"float:right\">预计耗时:"+detailedInfo.lasting+"</div><br>"+'<div style="float:left">预计花费金额:'+detailedInfo.money+'</div>'
                     +"送达截止时间:"+detailedInfo.deadline+"<br></p></span></a></div>";
-                    s.append(infoHtml);
+                    $(s).append(infoHtml);
      } }});
                 
 
