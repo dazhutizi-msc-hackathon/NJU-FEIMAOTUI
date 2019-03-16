@@ -150,10 +150,14 @@
             }
             else{
                 var orders = data.orders;
-                var appendix =
+                document.write('<div id="acceptedOrder" class="oPages" style="width: 100%;height: 100%;"><div id="acceptedList">');
                 for(var i=0;i<orders.length;i++){
-                    
+                    var adding=$('<div class="list-group"> </div>');
+                    adding.innerHTML='<a href="#" class="list-group-item active">'+
+                        '<h4 class="list-group-item-heading">'+orders[i].title+" &yen;"+orders[i].gift+"<span style=\"float:right\">"+
+                            orders[i].type+"</span>"+'<span class=\"list-group-item\">'+"<h4 class=\"list-group-item-heading\">"+orders[i].name+"<span style=\"float:right\">接取人姓名:"+info[i].score+"</span></h4>";
                 }
+                document.write('</div></div>');
             }
 
         }
@@ -178,9 +182,9 @@
                             <div style="float:left">白金脆皮鸭</div><div style="float: right;">x1</div><br>
                             <div style="float: right;">支付金额: ￥666.66</div><br>
                             <div class="btn-group" style="float: right">
-                                <button type="button" class="btn btn-default" onclick="displayDetails(this.parentNode)">订单详情</button>
-                                <button type="button" class="btn btn-default">按钮 3</button>
-                                <button type="button" class="btn btn-success" onclick="arriveBtn()">送达</button>
+                                <button type="button" class="btn btn-default" onclick="displayDetails(this.parentNode)" value=orders[i].id>订单详情</button>
+                                <button type="button" class="btn btn-default" value=orders[i].id>按钮 3</button>
+                                <button type="button" class="btn btn-success" onclick="arriveBtn()" value=orders[i].id>送达</button>
                             </div>
 
                             <br>
