@@ -52,10 +52,12 @@ function send(dat, succ){
 
 function showProgress(){
     //显示中间一个进度条，等待
+    $('#progressContainer').css('display', 'block');
 }
 
 function hideProgress(){
     //隐藏中间进度条
+    $('#progressContainer').css('display', 'none');
 }
 
 function displayError(){
@@ -75,6 +77,7 @@ function showInfoList(){
             }
             else{
             var info=data.infos;
+$('#information').html("");
             for(var i=0;i<info.length;i++){
                 var adding=$('<div class="list-group" ></div>');
                 adding.html("<a class=\"list-group-item active\" >"+
@@ -83,11 +86,10 @@ function showInfoList(){
                         "</h4><a class=\"list-group-item\" style=\"color: black;\">"+
                             "<h4 class=\"list-group-item-heading\">"+info[i].name+"<span style=\"float:right\">发布人评分:"+info[i].score+"</span></h4>"+
                             "<p class=\"list-group-item-text\">"+
-                                "<div style=\"float:right\">预计耗时:"+info[i].lasting / 60+"分</div><br>"+
-                                "送达截止时间:"+getLocalTime(info[i].deadline)+"<br>"+'</p><button class="btn btn-default" style="float:right" value=info[i].id onclick="showDetailedInfo(this.parentNode,' + info[i].id + ' )">查看</button><br><br></a>'+
+                                "<div style=\"float:right\">预计耗时 "+info[i].lasting / 60+" 分钟</div><br>"+
+                                "送达截止时间: "+getLocalTime(info[i].deadline)+"<br>"+'</p><button class="btn btn-default" style="float:right" value=info[i].id onclick="showDetailedInfo(this.parentNode,' + info[i].id + ' )">查看</button><br><br></a>'+
                                 ''+'</a>')
                                 ;
-
 
                 $('#information').append(adding);
 
@@ -104,14 +106,14 @@ function showOrderList(){
         par = $('#publishedList');
         par.html("");
         dat = data['orders'];
-        str = '';
+        strs = '';
         for(i=0; i<dat.length; ++i){
-            str = str + '<div class="list-group"><a href="javascript: void(0);" class="list-group-item active"><h4 class="list-group-item-heading">';
+            str = '<div class="list-group"><a href="javascript: void(0);" class="list-group-item active"><h4 class="list-group-item-heading">';
             str = str + dat[i]['title'];
             str = str + '</h4></a><a href="javascript: void(0);" class="list-group-item"><h4 class="list-group-item-heading">';
             str = str + changeStatus(dat[i]['status']) + '</h4>';
             str = str + '<div style="float:left">发布时间：' + getLocalTime(dat[i]['time']) + '</div><br>';
-            str = str + '<div style="float:left">赏金：' + dat[i]['gift'] / 100 + '</div><br>';
+            str = str + '<div style="float:left">赏金：' + dat[i]['gift'] / 100 + '元</div><br>';
             str = str + '<div style="float:left">跑腿类型：' + dat[i]['type'] + '</div><br>';
             if(dat[i]['name2'])str = str + '<div style="float:left">接取人姓名：' + dat[i]['name2'] + '</div><br>';
             if(dat[i]['accepttime']>0)str = str + '<div style="float:left">接取时间：' + getLocalTime(dat[i]['accepttime']) + '</div><br>';
@@ -121,21 +123,22 @@ function showOrderList(){
             if(dat[i]['status']<=1)str = str + ' <button type="button" class="btn btn-danger" onclick="cancelInfo(' + dat[i]['id'] + ')">取消</button>';
             if(dat[i]['status']==1)str = str + ' <button type="button" class="btn btn-success" onclick="finishOrder(' + dat[i]['id'] + ')">送达</button>';
             str = str + '</div><br><br></a></div>';
+            strs = str + strs;
         }
-        par.html(str);
+        par.html(strs);
     });
     send({'op': 'getOrderList', 'acceptbyme': '1'}, function(data){
         par = $('#acceptedList');
         par.html("");
         dat = data['orders'];
-        str = '';
+        strs = '';
         for(i=0; i<dat.length; ++i){
-            str = str + '<div class="list-group"><a href="javascript: void(0);" class="list-group-item active"><h4 class="list-group-item-heading">';
+            str = '<div class="list-group"><a href="javascript: void(0);" class="list-group-item active"><h4 class="list-group-item-heading">';
             str = str + dat[i]['title'];
             str = str + '</h4></a><a href="javascript: void(0);" class="list-group-item"><h4 class="list-group-item-heading">';
             str = str + changeStatus(dat[i]['status']) + '</h4>';
             str = str + '<div style="float:left">发布时间：' + getLocalTime(dat[i]['time']) + '</div><br>';
-            str = str + '<div style="float:left">赏金：' + dat[i]['gift'] / 100 + '</div><br>';
+            str = str + '<div style="float:left">赏金：' + dat[i]['gift'] / 100 + '元</div><br>';
             str = str + '<div style="float:left">跑腿类型：' + dat[i]['type'] + '</div><br>';
             str = str + '<div style="float:left">发布人姓名：' + dat[i]['name'] + '</div><br>';
             str = str + '<div style="float:left">接取时间：' + getLocalTime(dat[i]['accepttime']) + '</div><br>';
@@ -144,8 +147,9 @@ function showOrderList(){
             str = str + '<div class="btn-group" style="float: right"><button type="button" class="btn btn-default" onclick="showOrderInAcceptedBill(this.parentNode.parentNode,' + dat[i]['id'] + ')">订单详情</button>';
             if(dat[i]['status']==1)str = str + ' <button type="button" class="btn btn-danger" onclick="cancelInfo(' + dat[i]['id'] + ')">取消</button>';
             str = str + '</div><br><br></a></div>';
+            strs = str + strs;
         }
-        par.html(str);
+        par.html(strs);
     });
 }
 
@@ -160,7 +164,7 @@ function showOrderList(){
                 },
                 success:function(data){
                     var detailedInfo=data['info'];
-                    var infoHtml='<br><div id="detailed" class="alert alert-success"><h4 class=\"list-group-item-heading\"><span style=\"float:right\"</span></h4><span class=\"list-group-item\"><p style="float:left" class="list-group-item-text">'+detailedInfo.content+'</p>'+'<div style=\"float:right\">发布时间：'+getLocalTime(detailedInfo.time)+'</div><br>'+"<p class=\"list-group-item-text\">"+'<div style="float:right">预计花费金额:'+detailedInfo.money/100+'</div>'+"<br></p></span></a>"+
+                    var infoHtml='<br><div id="detailed" class="alert alert-success"><h4 class=\"list-group-item-heading\"></h4><p style="float:left" class="list-group-item-text">'+detailedInfo.content+'</p>'+'<div style=\"float:right\">发布时间：'+getLocalTime(detailedInfo.time)+'</div><br>'+"<p class=\"list-group-item-text\">"+'<div style="float:right">预计花费金额:'+detailedInfo.money/100+'元</div>'+"<br></p></a>"+
                         '<br><div class="btn-group" style="float:right">'+
             '<button class="btn btn-primary" type="button" onclick="acceptInfo('+detailedInfo.id+')">确认接单</button>'+
     '</div><br><br></div>';
@@ -253,7 +257,7 @@ function showOrderInPublishedBill(s,id){
         "</h4><span class=\"list-group-item\">"+
             "<h4 class=\"list-group-item-heading\" id=\"acceptPerson\"></h4>"+
             +'<p style="float:left" class="list-group-item-text">'+detailedInfo.content+'</p>'+"<p class=\"list-group-item-text\">"
-                +"送达截止时间:"+detailedInfo.deadline+"<br></p></span></a></div>";
+                +"送达截止时间: "+detailedInfo.deadline+"<br></p></span></a></div>";
                 $(s).append(infoHtml);
  } }});
 
@@ -304,10 +308,10 @@ function showOrderInAcceptedBill(s,id){
         "<h4 class=\"list-group-item-heading\">"+
             detailedInfo.title+" &yen;"+detailedInfo.gift+'<span style="color:#808080;font-size:40px;">'+'&nbsp;&nbsp;'+detailedInfo.time+'</span>'+"<span style=\"float:right\">"+detailedInfo.type+"</span>"
             "</h4><span class=\"list-group-item\">"+
-                "<h4 class=\"list-group-item-heading\">发布人:"+detailedInfo.name+'&nbsp;'+status+"<span style=\"float:right\">发布人评分:"+detailedInfo.score+"</span></h4>"+
+                "<h4 class=\"list-group-item-heading\">发布人:"+detailedInfo.name+'&nbsp;'+status+"<span style=\"float:right\">发布人评分: "+detailedInfo.score+"</span></h4>"+
                 +'<p style="float:left" class="list-group-item-text">'+detailedInfo.content+'</p>'+"<p class=\"list-group-item-text\">"+
-                    "<div style=\"float:right\">预计耗时:"+detailedInfo.lasting+"</div><br>"+'<div style="float:left">预计花费金额:'+detailedInfo.money+'</div>'
-                    +"送达截止时间:"+detailedInfo.deadline+"<br></p></span></a></div>";
+                    "<div style=\"float:right\">预计耗时 "+detailedInfo.lasting/60+" 分钟</div><br>"+'<div style="float:left">预计花费金额: '+detailedInfo.money+'</div>'
+                    +"送达截止时间: "+detailedInfo.deadline+"<br></p></span></a></div>";
                     $(s).append(infoHtml);
      } }});
                 
@@ -317,7 +321,7 @@ function showOrderInAcceptedBill(s,id){
 function showUserInfo(){
     //显示个人信息
     send({'op': 'whoami'}, function(data){
-        $('#myinfos').html('学号：' + data['number'] + '<br>姓名：' + data['name'] + '<br>手机：' + data['phone'] + '<br>年级：' + data['grade'] + '<br>专业：' + data['major'] + '<br>钱包余额：' + data['money'] / 100 + '元');
+        $('#myinfos').html('学号：' + data['number'] + '<br>姓名：' + data['name'] + '<br>手机：' + data['phone'] + '<br>年级：' + data['grade'] + '<br>专业：' + data['major'] + '<br>评分：' + data['score'] + '<br>钱包余额：' + data['money'] / 100 + '元');
         $("#myInfo").addClass('mActive');
         $("#myPage").css('display', 'block');
     });
