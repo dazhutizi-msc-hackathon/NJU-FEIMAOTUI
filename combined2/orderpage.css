@@ -1,0 +1,40 @@
+html, body {
+    height: 100%;
+    margin: 0px;
+    padding: 0px;
+}
+
+#head{
+    width: 100%;
+
+}
+#selectionTab{
+    border-bottom: 1px solid #cccccc;
+    height: 30px;
+
+}
+#selectionTab h3{
+    font-size: 18px;
+    margin: 2px 0px 0px 0px;
+    height: 28px;
+    float: left;
+    width: 33%;
+    text-align: center;
+}
+#selectionTab h3.actived{
+    border-bottom: 1px solid darkcyan;
+    color: darkcyan;
+}
+#inPage{
+    width: 100%;
+    position: absolute;
+    top: 35px;
+    bottom: 3px;
+    left: 0px;
+}
+#inPage .oPages{
+    display: none;
+}
+#inPage .oPages.content{
+    display: block;
+}
