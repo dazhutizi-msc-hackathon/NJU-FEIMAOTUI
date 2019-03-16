@@ -17,7 +17,7 @@ function writeInfo(){
                             "<p class=\"list-group-item-text\">"+
                                 "<div style=\"float:right\">预计耗时:"+info[i].lasting+"</div><br>"+
                                 "送达截止时间:"+info[i].deadline+"<br><br></p></span></a>";
-                $("body").append(adding);
+                document.write(adding);
             }
         },
         error:function(Error){
