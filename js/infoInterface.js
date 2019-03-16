@@ -1,28 +1,5 @@
 var postId;
-function writeInfo(){
-    $.ajax({
-        url:"deal.php",
-        type:"POST",
-        dataType:"JSON",
-        data:{"op":"getInfoList" },
-        success:function(data){
-            var info=data.infos;
-            for(var i=0;i<info.length;i++){
-                var adding=$('<div class="list-group" id=info[i].id></div>');
-                adding.innerHTML="<a class=\"list-group-item active\" >"+
-                    "<h4 class=\"list-group-item-heading\">"+
-                        info[i].title+" &yen;"+info[i].gift+"<span style=\"float:right\">"+info[i].type+"</span>"+
-                        "</h4><span class=\"list-group-item\">"+
-                            "<h4 class=\"list-group-item-heading\">"+info[i].name+"<span style=\"float:right\">发布人评分:"+info[i].score+"</span></h4>"+
-                            "<p class=\"list-group-item-text\">"+
-                                "<div style=\"float:right\">预计耗时:"+info[i].lasting+"</div><br>"+
-                                "送达截止时间:"+info[i].deadline+"<br><br></p></span></a>";
-                document.write(adding);
-            }
-        },
-        error:function(Error){
-            alert(Error);
-        }});
+
 
         $('div.list-group').on('click','a',function(){
             postId=$(this).parent().attr("id");
@@ -36,19 +13,19 @@ function writeInfo(){
                     "id":postId
                 },
                 success:function(data){
-                    var detailedInfo=data.info;
+                    var detailedInfo=data['info'];
                     var infoHtml='<div id="detailed" class="alert alert-success">'+
                     "<a class=\"list-group-item active\" >"+
             "<h4 class=\"list-group-item-heading\">"+
                 detailedInfo.title+" &yen;"+detailedInfo.gift+'<span style="color:#808080;font-size:40px;">'+'&nbsp;&nbsp;'+detailedInfo.time+'</span>'+"<span style=\"float:right\">"+detailedInfo.type+"</span>"
                 "</h4><span class=\"list-group-item\">"+
                     "<h4 class=\"list-group-item-heading\">"+detailedInfo.name+"<span style=\"float:right\">发布人评分:"+detailedInfo.score+"</span></h4>"+
-                    +'<p style="float:left" class="list-group-item-text">detailedInfo.content</p>'+"<p class=\"list-group-item-text\">"+
+                    +'<p style="float:left" class="list-group-item-text">'+detailedInfo.content+'</p>'+"<p class=\"list-group-item-text\">"+
                         "<div style=\"float:right\">预计耗时:"+detailedInfo.lasting+"</div><br>"+'<div style="float:left">预计花费金额:'+detailedInfo.money+'</div>'
                         +"送达截止时间:"+detailedInfo.deadline+"<br></p></span></a></div>"+
                         '<div class="btn-group" style="float:right">'+
            '<button type="button" id="cancel" class="btn btn-default" onclick="cancelBillBtn()">取消</button>'+
-            '<button class="btn btn-primary" type="button" onclick="confirmBillBtn()">确认</button>'+
+            '<button class="btn btn-primary" type="button" onclick="confirmBillBtn()">确认接单</button>'+
     '</div>';
                 s.append(infoHtml);
                 
@@ -59,7 +36,7 @@ function writeInfo(){
            
     
             });
-}
+
 
 function confirmBillBtn() {
     var result = confirm("确认");
