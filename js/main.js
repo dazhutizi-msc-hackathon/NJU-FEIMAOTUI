@@ -76,15 +76,17 @@ function showInfoList(){
             else{
             var info=data.infos;
             for(var i=0;i<info.length;i++){
-                var adding=$('<div class="list-group" id=info[i].id></div>');
+                var adding=$('<div class="list-group" ></div>');
                 adding.html("<a class=\"list-group-item active\" >"+
                     "<h4 class=\"list-group-item-heading\">"+
                         info[i].title+" &yen;"+info[i].gift / 100+"<span style=\"float:right\">"+info[i].type+"</span>"+
                         "</h4><span class=\"list-group-item\" style=\"color: black;\">"+
                             "<h4 class=\"list-group-item-heading\">"+info[i].name+"<span style=\"float:right\">发布人评分:"+info[i].score+"</span></h4>"+
                             "<p class=\"list-group-item-text\">"+
-                                "<div style=\"float:right\">预计耗时:"+info[i].lasting / 60 + "分</div><br>"+
-                                "送达截止时间:"+getLocalTime(info[i].deadline)+"<br><br></p></span></a>");
+                                "<div style=\"float:right\">预计耗时:"+info[i].lasting+"</div><br>"+
+                                "送达截止时间:"+info[i].deadline+"<br>"+'</p></span>'+
+                                '<button class="btn btn-primary" style="float:right" value=info[i].id onclick="showDetailedInfo($(this).parent(),$(this).val())">查看</button>'+'</a><br><br><br><br>')
+                                ;
                 $('#information').append(adding);
             }}
         },
