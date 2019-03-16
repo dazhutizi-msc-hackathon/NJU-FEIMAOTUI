@@ -64,7 +64,7 @@ function showDetailedInfo(s,id){
             var infoHtml='<div id="detailed" class="alert alert-success">'+
             "<a class=\"list-group-item active\" >"+
     "<h4 class=\"list-group-item-heading\">"+
-        detailedInfo.title+" &yen;"+detailedInfo.gift+'<span style="color:#808080;">'+'&nbsp;&nbsp;'+'发布时间:'+detailedInfo.time+'</span>'+"<span style=\"float:right\">"+detailedInfo.type+"</span>"+
+        detailedInfo.title+" &yen;"+detailedInfo.gift+'<span style="color:#808080;font-size:15px;">'+'&nbsp;&nbsp;'+'发布时间:'+detailedInfo.time+'</span>'+"<span style=\"float:right\">"+detailedInfo.type+"</span>"+
         "</h4><span class=\"list-group-item\">"+
             "<h4 class=\"list-group-item-heading\">"+detailedInfo.name+"<span style=\"float:right\">发布人评分:"+detailedInfo.score+"</span></h4>"+
             '<p style="float:left" class="list-group-item-text">'+detailedInfo.content+'</p>'+"<p class=\"list-group-item-text\">"+
@@ -256,13 +256,13 @@ function showOrderInPublishedBill(s,id){
         }
 
             var infoHtml='<div id="detailedInPublished" class="alert alert-success">'+
-            "<a class=\"list-group-item active\" >"+
+           '<a class="close" data-dismiss="alert"></a>'+
     "<h4 class=\"list-group-item-heading\">"+
         detailedInfo.title+" &yen;"+detailedInfo.gift+'<span style="color:#808080;font-size:40px;">'+'&nbsp;&nbsp;'+status+'</span>'+"<span style=\"float:right\">"+detailedInfo.type+"</span>"
         "</h4><span class=\"list-group-item\">"+
             "<h4 class=\"list-group-item-heading\" id=\"acceptPerson\"></h4>"+
             +'<p style="float:left" class="list-group-item-text">'+detailedInfo.content+'</p>'+"<p class=\"list-group-item-text\">"
-                +"送达截止时间:"+detailedInfo.deadline+"<br></p></span></a></div>";
+                +"送达截止时间:"+detailedInfo.deadline+"<br></p></span></div>";
                 $(s).append(infoHtml);
  } }});
 
