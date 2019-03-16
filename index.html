@@ -8,8 +8,6 @@
    <script src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
    <script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <link href="css/orderpage.css" type="text/css" rel="stylesheet">
-    <script src="js/orderpage.js"></script>
-    <script src="js/my.js"></script>
     <script src="js/overall.js"></script>
     <script src="js/infoInterface.js"></script>
    <style type="text/css">
@@ -23,9 +21,7 @@
 <div id="overallPages">
     <!--下面是信息页面-->
     <div id="information" class="oaPages content">
-        <script>
-        writeInfo();
-        </script>
+        
     </div>
 
     <!--下面是订单页面-->
@@ -369,7 +365,6 @@
                     </select>
                 </div>
                 <p align="center">院系: </p><input type="text" name="major"><br>
-                <p align="center">校园卡照片: </p><img src="URL" alt="校园卡照片" height="42" width="42"><br>
                 <br>
                 <div class="btn-group">
                     <button type="button" class="btn btn-info" onclick="signUp()">注册</button>
@@ -402,7 +397,7 @@
 </div>
 <!--下面是页头-->
 <div style="width:100%; top:0; position: fixed; z-index: 99; background-color:rgb(128,0,128); text-align: center; padding: 10px; font-size: 3em;color: rgb(255, 255, 255);" class="indexHead">
-    <span class="glyphicon glyphicon-user" style="float: left; margin: 10px;"></span>
+    <span class="glyphicon glyphicon-user" style="float: left; margin: 10px;" id="myTab"></span>
     <p>标题待定</p>
 </div>
 
