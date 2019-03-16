@@ -27,10 +27,7 @@ html, body {
 }
 #inPage{
     width: 100%;
-    position: absolute;
-    top: 35px;
-    bottom: 3px;
-    left: 0px;
+    margin-top: 10px;
 }
 #inPage .oPages{
     display: none;
