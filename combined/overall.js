@@ -2,8 +2,10 @@ window.onload = function(){
     var ovaoTab=document.getElementById("selectPageTab");
     var ovaaH3=ovaoTab.getElementsByTagName("a");
     var ovaoPage=document.getElementById("overallPages");
-    console.log(ovaoPage)
+    // console.log(ovaoPage)
     var ovaaDiv=ovaoPage.getElementsByClassName("oaPages");
+    var mTab=document.getElementById("myTab");
+    var mPage=document.getElementById("myPage");
     for (var i=0;i<ovaaH3.length;i++){
         ovaaH3[i].index=i;
         ovaaH3[i].onclick=function () {
@@ -15,6 +17,7 @@ window.onload = function(){
             }
             this.className="active";
             ovaaDiv[this.index].style.display="block";
+            mPage.className=""
         }
     }
     var oTab=document.getElementById("selectionTab");
@@ -32,7 +35,21 @@ window.onload = function(){
             }
             this.className="actived";
             aDiv[this.index].style.display="block";
+            mPage.className=""
         }
     }
 
+    console.log(mPage)
+    // var aDiv=oPage.getElementsByClassName("oPages");
+    mTab.onclick=function () {
+        mPage.className="acc";
+        for(var j=0;j<ovaaDiv.length;j++){
+            ovaaDiv[j].className="oaPages";
+            console.log(ovaaDiv[j]);
+            ovaaDiv[j].style.display = "none";
+        }
+        for (var j=0;j<ovaaH3.length;j++){
+            ovaaH3[j].className="";
+        }
+    }
 }
