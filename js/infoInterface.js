@@ -1,16 +1,14 @@
 var postId;
 
 
-        $('div.list-group').on('click','a',function(){
-            postId=$(this).parent().attr("id");
-            var s = $(this).parent();
+        function showDetailedInfo(s,id){
             $.ajax({
                 url:"deal.php",
                 type:"POST",
                 dataType:"JSON",
                 data:{
                     "op":"getInfoById",
-                    "id":postId
+                    "id":id
                 },
                 success:function(data){
                     var detailedInfo=data['info'];
@@ -35,7 +33,7 @@ var postId;
             });
            
     
-            });
+            };
 
 
 function confirmBillBtn() {
