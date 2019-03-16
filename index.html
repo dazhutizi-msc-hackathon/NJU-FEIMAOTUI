@@ -48,166 +48,14 @@
         </div>
 
         <div id="inPage">
-
-            <div id="publishedOrder" class="content oPages" style="width: 100%;height: 100%;">
-
-                <div id="publishedList">
-
-                    <div class="list-group">
-                        <a href="#" class="list-group-item active">
-                            <h4 class="list-group-item-heading">
-                                2019/3/13 16:42的订单
-                            </h4>
-                        </a>
-                        <a href="#" class="list-group-item">
-                            <h4 class="list-group-item-heading">
-                                已完成
-                            </h4>
-                            <p class="list-group-item-text">
-                            <div style="float:left">可口可乐</div><div style="float: right;">x1</div><br>
-                            <div style="float:left">黄金脆皮鸡</div><div style="float: right;">x1</div><br>
-                            <div style="float: right;">支付金额: ￥999.99</div><br>
-                            <div class="btn-group" style="float: right">
-                                <button type="button" class="btn btn-default" onclick="displayDetails(this.parentNode)">订单详情</button>
-                                <!--点击订单详情后出现的信息是在publishedOrder.js里实现的-->
-                                <button type="button" class="btn btn-default">按钮 3</button>
-                                <button type="button" class="btn btn-success" onclick="addComment(this.parentNode)">评价</button>
-                                <!--点击评价后出现的评价框是在publishedOrder.js里实现的-->
-                            </div>
-                            <br>
-                            </p>
-
-                        </a>
-                    </div>
-                    <div class="list-group">
-                        <a href="#" class="list-group-item active">
-                            <h4 class="list-group-item-heading">
-                                2019/3/13 16:42的订单
-                            </h4>
-                        </a>
-                        <a href="#" class="list-group-item">
-                            <h4 class="list-group-item-heading">
-                                李先生 16666666666 正在进行
-                            </h4>
-                            <p class="list-group-item-text">
-                            <div style="float:left">百事可乐</div><div style="float: right;">x1</div><br>
-                            <div style="float:left">白金脆皮鸭</div><div style="float: right;">x1</div><br>
-                            <div style="float: right;">支付金额: ￥666.66</div><br>
-                            <div class="btn-group" style="float: right">
-                                <button type="button" class="btn btn-default" onclick="displayDetails(this.parentNode)">订单详情</button>
-                                <button type="button" class="btn btn-default">按钮 3</button>
-                                <button type="button" class="btn btn-success" onclick="confirmBtn()">确认收货</button>
-                            </div>
-                            <br>
-                            </p>
-
-                        </a>
-                    </div>
-                    <div class="list-group">
-                        <a href="#" class="list-group-item active">
-                            <h4 class="list-group-item-heading">
-                                2019/3/13 16:42的订单
-                            </h4>
-                        </a>
-                        <a href="#" class="list-group-item">
-                            <h4 class="list-group-item-heading">
-                                未接单
-                            </h4>
-                            <p class="list-group-item-text">
-                            <div style="float:left">雪碧</div><div style="float: right;">x1</div><br>
-                            <div style="float:left">铂金脆皮鹅</div><div style="float: right;">x1</div><br>
-                            <div style="float: right;">支付金额: ￥888.88</div><br>
-                            <div class="btn-group" style="float: right">
-
-                                <button type="button" class="btn btn-default" onclick="displayDetails(this.parentNode)">订单详情</button>
-                                <button type="button" class="btn btn-default">按钮 3</button>
-                                <button type="button" class="btn btn-success" onclick="cancelBtn()">取消订单</button>
-                            </div>
-                            <br>
-                            </p>
-
-                        </a>
-                    </div>
-
-
-                </div>
-
-
-            </div>
-            <script>
-        $.ajax({
-        url="../deal.php",
-        type="POST",
-        dataType="JSON",
-        data={
-            "op":"getOrderList",
-            "acceptbyme":1
-        },
-        success:function(data){
-            if(data.code==2){
-                /*这里是登录界面*/
-
-
-
-            }
-            else{
-                var orders = data['orders'];
-                document.write('<div id="acceptedOrder" class="oPages" style="width: 100%;height: 100%;"><div id="acceptedList">');
-                for(var i=0;i<orders.length;i++){
-                    var adding=$('<div class="list-group"> </div>');
-                    adding.innerHTML='<a href="#" class="list-group-item active">'+
-                        '<h4 class="list-group-item-heading">'+orders[i].title+" &yen;"+orders[i].gift+"<span style=\"float:right\">"+
-                            orders[i].type+"</span></h4></a>"+'<span class=\"list-group-item\">'+"<h4 class=\"list-group-item-heading\">"+"发布人姓名"+orders[i].name
-                            +'<br><p class="list-group-item-text" style="float:right">发布时间:'+orders[i].accepttime+'<br>截止时间:'+orders[i].finishtime;
-                    document.write(adding);
-                    if(orders[i].status==1)
-                    document.write('<p style="color:#00ccff;float:right;">正在进行</p>'+
-                        '<button type="button" class="btn btn-primary" onclick="showInfoInAcceptedBill($(this).parent(),$(this).val())" style="float: right" value=orders[i].id>订单详情</button>'
-                        );
-                    if(orders[i].status==2)
-                    document.write('<p style="color:#00ff00;float:right">已完成<br><span style="color:#000000;">完成时间:'+orders[i].finishtime+'<span></p>');
-                    if(orders[i].status==3)
-                    document.write('<p style="color:#ff0000;float:right">已取消</p>');
-                }
-                document.write('</div></div>');
-            }
-
-        }
-    });
-    function showInfoInAcceptedBill(s,id){
-        $.ajax({
-                url:"deal.php",
-                type:"POST",
-                dataType:"JSON",
-                data:{
-                    "op":"getOrderById",
-                    "id":id,
-                    "acceptbyme":1
-                },
-                success:function(data){
-                    if(data['code']==2){
-                        /* 这是登录界面*/
-
-                    }else{
-                    var detailedInfo=data['order'];
-                    var infoHtml='<div id="detailedInAccepted" class="alert alert-success">'+
-                    "<a class=\"list-group-item active\" >"+
-            "<h4 class=\"list-group-item-heading\">"+
-                detailedInfo.title+" &yen;"+detailedInfo.gift+'<span style="color:#808080;font-size:40px;">'+'&nbsp;&nbsp;'+detailedInfo.time+'</span>'+"<span style=\"float:right\">"+detailedInfo.type+"</span>"
-                "</h4><span class=\"list-group-item\">"+
-                    "<h4 class=\"list-group-item-heading\">发布人:"+detailedInfo.name+'&nbsp;'+detailedInfo.phone+"<span style=\"float:right\">发布人评分:"+detailedInfo.score+"</span></h4>"+
-                    +'<p style="float:left" class="list-group-item-text">'+detailedInfo.content+'</p>'+"<p class=\"list-group-item-text\">"+
-                        "<div style=\"float:right\">预计耗时:"+detailedInfo.lasting+"</div><br>"+'<div style="float:left">预计花费金额:'+detailedInfo.money+'</div>'
-                        +"送达截止时间:"+detailedInfo.deadline+"<br></p></span></a></div>";
-                        s.append(infoHtml);
-         } }});
-                    
-
-    }
-
-    $('#detailedInAccepted').on('click',function(){
+        <script>
+        showOrderListInPublishedBill();
+        
+       $('#detailedInPublished').on('click',function(){
+                $(this).slideUp();
+                });
+       $('#detailedInAccepted').on('click',function(){
         $(this).slideUp();
-
     });
             </script>
             
@@ -396,6 +244,7 @@
 
 </div>
 <!--下面是页头-->
+<div id="overallInterface">
 <div style="width:100%; top:0; position: fixed; z-index: 99; background-color:rgb(128,0,128); text-align: center; padding: 10px; font-size: 3em;color: rgb(255, 255, 255);" class="indexHead">
     <span class="glyphicon glyphicon-user" style="float: left; margin: 10px;" id="myTab"></span>
     <p>标题待定</p>
@@ -409,6 +258,7 @@
     <li><a class="active">信息</a></li>
     <li><a>订单</a></li>
 </ul>
+</div>
 </div>
 
 
