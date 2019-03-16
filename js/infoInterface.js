@@ -59,7 +59,7 @@ function writeInfo(){
            
     
             });
-});
+}
 
 function confirmBillBtn() {
     var result = confirm("确认");
