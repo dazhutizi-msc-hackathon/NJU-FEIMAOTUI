@@ -50,40 +50,6 @@ function send(dat, succ){
     });
 }
 
-function showDetailedInfo(s,id){
-    $.ajax({
-        url:"deal.php",
-        type:"POST",
-        dataType:"JSON",
-        data:{
-            "op":"getInfoById",
-            "id":id
-        },
-        success:function(data){
-            var detailedInfo=data['info'];
-            var infoHtml='<div id="detailed" class="alert alert-success">'+
-            "<a class=\"list-group-item active\" >"+
-    "<h4 class=\"list-group-item-heading\">"+
-        detailedInfo.title+" &yen;"+detailedInfo.gift+'<span style="color:#808080;">'+'&nbsp;&nbsp;'+'发布时间:'+detailedInfo.time+'</span>'+"<span style=\"float:right\">"+detailedInfo.type+"</span>"+
-        "</h4><span class=\"list-group-item\">"+
-            "<h4 class=\"list-group-item-heading\">"+detailedInfo.name+"<span style=\"float:right\">发布人评分:"+detailedInfo.score+"</span></h4>"+
-            '<p style="float:left" class="list-group-item-text">'+detailedInfo.content+'</p>'+"<p class=\"list-group-item-text\">"+
-                "<div style=\"float:right\">预计耗时:"+detailedInfo.lasting+"</div><br>"+'<div style="float:left">预计花费金额:'+detailedInfo.money+'</div>'
-                +"送达截止时间:"+detailedInfo.deadline+"<br></p></span></a></div>"+
-                '<div class="btn-group" style="float:right">'+
-   '<button type="button" id="cancel" class="btn btn-default" onclick="cancelBillBtn()">取消</button>'+
-    '<button class="btn btn-primary" type="button" onclick="confirmBillBtn()">确认接单</button>'+
-'</div>';
-        s.append(infoHtml);
-        
-
-        }
-
-    });
-   
-
-    };
-
 function showProgress(){
     //显示中间一个进度条，等待
 }
@@ -194,19 +160,10 @@ function showOrderList(){
                 },
                 success:function(data){
                     var detailedInfo=data['info'];
-                    var infoHtml='<div id="detailed" class="alert alert-success">'+
-                    "<a class=\"list-group-item active\" >"+
-            "<h4 class=\"list-group-item-heading\">"+
-                detailedInfo.title+" &yen;"+detailedInfo.gift+'<span style="color:#808080;font-size:40px;">'+'&nbsp;&nbsp;'+detailedInfo.time+'</span>'+"<span style=\"float:right\">"+detailedInfo.type+"</span>"
-                "</h4><span class=\"list-group-item\">"+
-                    "<h4 class=\"list-group-item-heading\">"+detailedInfo.name+"<span style=\"float:right\">发布人评分:"+detailedInfo.score+"</span></h4>"+
-                    +'<p style="float:left" class="list-group-item-text">'+detailedInfo.content+'</p>'+"<p class=\"list-group-item-text\">"+
-                        "<div style=\"float:right\">预计耗时:"+detailedInfo.lasting+"</div><br>"+'<div style="float:left">预计花费金额:'+detailedInfo.money+'</div>'
-                        +"送达截止时间:"+detailedInfo.deadline+"<br></p></span></a></div>"+
-                        '<div class="btn-group" style="float:right">'+
-           '<button type="button" id="cancel" class="btn btn-danger" onclick="cancelBillBtn()">取消</button>'+
-            '<button class="btn btn-primary" type="button" onclick="confirmBillBtn()">确认接单</button>'+
-    '</div>';
+                    var infoHtml='<br><div id="detailed" class="alert alert-success"><h4 class=\"list-group-item-heading\"><span style=\"float:right\"</span></h4><span class=\"list-group-item\"><p style="float:left" class="list-group-item-text">'+detailedInfo.content+'</p>'+'<div style=\"float:right\">发布时间：'+getLocalTime(detailedInfo.time)+'</div><br>'+"<p class=\"list-group-item-text\">"+'<div style="float:right">预计花费金额:'+detailedInfo.money/100+'</div>'+"<br></p></span></a>"+
+                        '<br><div class="btn-group" style="float:right">'+
+            '<button class="btn btn-primary" type="button" onclick="acceptInfo('+detailedInfo.id+')">确认接单</button>'+
+    '</div><br><br></div>';
                 $(s).append(infoHtml);
                 
     
@@ -391,6 +348,21 @@ function publishInfo(){
             alert('发布失败');
         }
     });
+}
+
+function acceptInfo(id){
+    if(confirm('确认要接单吗？如果接单后未完成将影响您的信用分？')){
+        send({'op': "acceptInfo", 'id': id}, function(data){
+            if(data['code'] == 0){
+                showOrderList();
+                showInfoList();
+                alert('接取成功！');
+            }
+            else{
+                displayError();
+            }
+        });
+    }
 }
 
 function cancelInfo(id){
