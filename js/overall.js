@@ -4,7 +4,7 @@ window.onload = function(){
     var ovaoPage=document.getElementById("overallPages");
     // console.log(ovaoPage)
     var ovaaDiv=ovaoPage.getElementsByClassName("oaPages");
-    var mTab=document.getElementById("myTab");
+    //var mTab=document.getElementById("myTab");
     var mPage=document.getElementById("myPage");
     for (var i=0;i<ovaaH3.length;i++){
         ovaaH3[i].index=i;
@@ -41,7 +41,7 @@ window.onload = function(){
     
 
     // var aDiv=oPage.getElementsByClassName("oPages");
-    mTab.onclick=function () {
+    /*mTab.onclick=function () {
         mPage.className="acc";
         for(var j=0;j<ovaaDiv.length;j++){
             ovaaDiv[j].className="oaPages";
@@ -51,7 +51,7 @@ window.onload = function(){
         for (var j=0;j<ovaaH3.length;j++){
             ovaaH3[j].className="";
         }
-    }
+    }*/
 }
 
 function submitBill(){
