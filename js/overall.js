@@ -38,8 +38,37 @@ window.onload = function(){
             mPage.className=""
         }
     }
+    function submitBill(){
+        var options=$("#runType option:selected");
+    
+        $.ajax({
+            url:"../deal.php",
+            type:"POST",
+            dataType:"JSON",
+            data:{
+                "op":"publishInfo",
+                "type":options.val(),
+                "content":$("#runContent").text(),
+                "money":$("#expense").text(),
+                "gift":$("#reward").text(),
+                "lasting":$("#expectedTimeSpan").text(),
+                "deadline":$("#deadline").text()
+                   },
+            success:function(data){
+                if(data.code==2){
+                    alert("请先登录");
+    
+    
+                    /*这是登录界面*/
+                }
+                else{
+                    
+    
+                }
+            }
+        });
+    }
 
-    console.log(mPage)
     // var aDiv=oPage.getElementsByClassName("oPages");
     mTab.onclick=function () {
         mPage.className="acc";
