@@ -351,4 +351,33 @@
         increseUserScore($userid2, $id);
         return json('code', 0);
     }
+    function op_signUp(){
+        global $error;
+        if(isPostParaMissing('number', 'password', 'name', 'phone', 'grade', 'major')){
+            return $error->PARA_REQUIRED;
+        }
+        $number = toMysqlStr($_POST['number']);
+        $password = toMysqlStr($_POST['password']);
+        $name = toMysqlStr($_POST['name']);
+        $phone = toMysqlStr($_POST['phone']);
+        $grade = $_POST['grade'];
+        $major = toMysqlStr($_POST['major']);
+        $mysql = new Mysql();
+        $mysql->connect() or exit($error->MYSQL_CONNECT_ERROR);
+        $found = $mysql->query($res, '*', $GLOBALS['DATABASE_USER'], array('number', $number), 1)+
+                    $mysql->query($res, '*', $GLOBALS['DATABASE_USER'], array('name', $name), 1)+
+                    $mysql->query($res, '*', $GLOBALS['DATABASE_USER'], array('phone', $phone), 1);
+        if($found){
+            $mysql->close();
+            return json('code', 5);
+        }
+        $res = $mysql->insert($GLOBALS['DATABASE_USER'], array('number', 'password', 'name', 'phone', 'grade', 'major'), array($number, $password, $name, $phone, $grade, $major));
+        $mysql->close();
+        if(!$res){
+            return $error->MYSQL_CONNECT_ERROR;
+        }
+        else{
+            return json('code', 0);
+        }
+    }
 ?>

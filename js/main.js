@@ -30,6 +30,10 @@ $(function(){
     $('#submitBillBtn').click(function(){
         publishInfo();
     });
+    
+    $('#btnSignup').click(function(){
+        LogUp();
+    });
 });
 
 function send(dat, succ){
@@ -239,11 +243,10 @@ function showOrderInPublishedBill(s,id){
 
             var infoHtml='<div id="detailedInPublished" class="alert alert-success">'+
            '<a class="close" data-dismiss="alert"></a>'+
-    "<span class=\"list-group-item\">"+
-            "<h4 class=\"list-group-item-heading\" id=\"acceptPerson\"></h4>"+
+            "<h4 class=\"list-group-item-heading\" id=\"acceptPerson\"></h4>"
             +'<p style="float:left" class="list-group-item-text">'+detailedInfo.content+'</p>'+ '<div style=\"float:right\">发布时间：'+getLocalTime(detailedInfo.time)+'</div><br>'
             +"<p class=\"list-group-item-text\">"
-                +"送达截止时间:"+detailedInfo.deadline+"<br></p></span></div><br>";
+                +"<br></p></div><br>";
                 $(s).append(infoHtml);
  } });
 
@@ -290,12 +293,11 @@ function showOrderInAcceptedBill(s,id){
                 }
     
                 
-                var infoHtml='<div id="detailedInAccepted" class="alert alert-success">'+
-                '<a class="close" data-dismiss="alert"></a>'+
-                +'<p style="float:left" class="list-group-item-text">'+detailedInfo.content+'</p>'+'<div style=\"float:right\">发布时间：'+getLocalTime(detailedInfo.time)+'</div><br>'+'<div style="float:right">预计花费金额:'
-                +detailedInfo.money/100+'/div'+'<br><br>'+"<p class=\"list-group-item-text\">"+
-                    "<div style=\"float:right\">预计耗时:"+detailedInfo.lasting+"</div><br>"+'<div style="float:left">预计花费金额:'+detailedInfo.money+'</div>'
-                    +"送达截止时间:"+detailedInfo.deadline+"<br></p></span>"+'<br><br></div>';
+                var infoHtml='<div id="detailedInAccepted" class="alert alert-success">'
+                +'<p style="float:left" class="list-group-item-text">'+detailedInfo.content+'</p>'+'<div style=\"float:right\">发布时间：'+getLocalTime(detailedInfo.time)+'</div><br>'+'<div style="float:right">预计花费金额: '
+                +detailedInfo.money/100+'元</div>'+'<br>'+
+                    "<div style=\"float:right\">预计耗时: "+detailedInfo.lasting / 60+"分钟</div><br>"
+                    +"</span>"+'</div>';
                     $(s).append(infoHtml);
      } });
 
@@ -395,4 +397,25 @@ function changeStatus(i){
 
 function getLocalTime(nS) {     
    return new Date(parseInt(nS) * 1000).toLocaleString().replace(/:\d{1,2}$/,' ');     
+}
+
+function LogUp(){
+    send({'op': 'signUp','number': $('#snumber').val(), 'password': $('#spassword').val(), 'phone': $('#sphone').val(), 'name': $('#sname').val(), 'grade': $('#sgrade').val(), 'major': $('#smajor').val()}, function(data){
+        if(data['code'] == 0){
+            alert("注册成功！");
+            $('#snumber').val('');
+            $('#spassword').val('');
+            $('#sphone').val('');
+            $('#sname').val('');
+            $('#sgrade').val('');
+            $('#smajor').val('');
+            signUp();
+        }
+        else if(data['code'] == 5){
+            alert("该用户已被注册！相同的学号、姓名、手机视为同一用户！");
+        }
+        else{
+            displayError();
+        }
+    });
 }

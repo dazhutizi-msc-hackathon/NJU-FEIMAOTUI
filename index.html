@@ -161,8 +161,10 @@
             <br>
             <br>
             <div class="btn-group">
-                <button type="button" class="btn btn-default" id="btnLogin">登录</button>
-                <!--<button type="button" class="btn btn-default" onclick="goSignUpPage()">注册</button>-->
+                <button type="button" class="btn btn-primary" id="btnLogin">登录</button>
+            </div>
+            <div class="btn-group">
+                <button type="button" class="btn btn-success" onclick="goSignUpPage()">注册</button>
             </div>
         </div>
     </div>
@@ -170,25 +172,18 @@
         <div class="center">
                 <h3>注册</h3>
                 <br>
-                <p align="center">学号: </p><input type="text" name="学号"><br>
-                <p align="center">密码: </p><input type="password" name="pwd"><br>
-                <p align="center">手机号: </p><input type="text" name="tel_num"><br>
-                <p align="center">真实姓名: </p><input type="text" name="name"><br>
-                <p align="center">年级: </p>
-                <div>
-                    <select>
-                        <option>大一</option>
-                        <option>大二</option>
-                        <option>大三</option>
-                        <option>大四</option>
-                        <option>研究生</option>
-                        <option>博士生</option>
-                    </select>
-                </div>
-                <p align="center">院系: </p><input type="text" name="major"><br>
+                <p align="center">学号: </p><input type="text" id="snumber"><br>
+                <p align="center">密码: </p><input type="password" id="spassword"><br>
+                <p align="center">手机号: </p><input type="text" id="sphone"><br>
+                <p align="center">真实姓名: </p><input type="text" id="sname"><br>
+                <p align="center">年级: </p><input type="number" id="sgrade" min="15" max="18" step="1"><br>
+                <p align="center">院系: </p><input type="text" id="smajor"><br>
                 <br>
                 <div class="btn-group">
-                    <button type="button" class="btn btn-info" onclick="signUp()">注册</button>
+                    <button type="button" class="btn btn-default" onclick="signUp()">返回</button>
+                </div>
+                <div class="btn-group">
+                    <button type="button" class="btn btn-success" id="btnSignup">注册</button>
                 </div>
         </div>
     </div>
