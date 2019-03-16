@@ -1,4 +1,10 @@
 <?php
+    function refreshDatabase(){
+        $mysql = new Mysql();
+        $mysql->connect() or exit($error->MYSQL_CONNECT_ERROR);
+        $mysql->query('update '.$GLOBALS['DATABASE_INFO'].' set status=3 where status=0 and deadline<'.time());
+        $mysql->close();
+    }
     function op_login(){
         global $error;
         if(isPostParaMissing("number") || isPostParaMissing("password")){
@@ -12,7 +18,9 @@
             return $error->LOGIN_ERROR;
         }
         $_SESSION['id'] = $res[0]['id'];
+        $_SESSION['name'] = $res[0]['name'];
         $_SESSION['number'] = $res[0]['number'];
+        $_SESSION['score'] = $res[0]['score'];
         $mysql->close();
         return json('code', 0, 'id', $res[0]['id']);
     }
@@ -29,26 +37,6 @@
     }
     function op_getInfoList(){
         global $error;
-        /*if(isPostParaMissing('id')){
-            return $error->PARA_REQUIRED;
-        }*/
-        //$id = postVal('id');
-        /*if($id == 0){
-            $mysql->query($res, '*', $GLOBALS['DATABASE_INFO'], array('status', 0));
-        }
-        else{
-            if(isLogin()){
-                if($id == 1){
-                    $mysql->query($res, '*', $GLOBALS['DATABASE_INFO'], array('userid', $_SESSION['id']));
-                }
-                else{
-                    $mysql->query($res, '*', $GLOBALS['DATABASE_INFO'], array('userid2', $_SESSION['id']));
-                }
-            }
-            else{
-                return $error->NOT_LOGIN;
-            }
-        }*/
         if(!isLogin()){
             return $error->NOT_LOGIN;
         }
@@ -182,5 +170,144 @@
         else{
             return $error->NO_AUTHORIZATION;
         }
+    }
+    function op_acceptInfo(){
+        global $error;
+        if(isPostParaMissing('id')){
+            return $error->PARA_REQUIRED;
+        }
+        if(!isLogin()){
+            return $error->NOT_LOGIN;
+        }
+        $id = postVal('id');
+        $mysql = new Mysql();
+        $mysql->connect() or exit($error->MYSQL_CONNECT_ERROR);
+        $found = $mysql->query($res, '*', $GLOBALS['DATABASE_INFO'], array('id', $id, 'status', 0), 1);
+        if($found == 1){
+            $res = $mysql->update($GLOBALS['DATABASE_INFO'],
+                array('accepttime', time(), 'finishtime', -1, 'status', 1, 'userid2', $_SESSION['id'], 'name2', toMysqlStr($_SESSION['name']), 'phone2', toMysqlStr($_SESSION['phone'], 'score2', $_SESSION['score']),
+                array('id', $id, 'status', 0)));
+            $mysql->close();
+            if($res){
+                return json('code', 0);
+            }
+            else{
+                return $error->ACCEPT_INFO_ERROR;
+            }
+        }
+        else{
+            return $error->ACCEPT_INFO_ERROR;
+        }
+    }
+    function op_publishInfo(){
+        global $error;
+        if(isPostParaMissing('title', 'type', 'content', 'money', 'gift', 'lasting', 'deadline')){
+            return $error->PARA_REQUIRED;
+        }
+        if(!isLogin()){
+            return $error->NOT_LOGIN;
+        }
+        $title = toMysqlStr($_POST['title']);
+        $type = toMysqlStr($_POST['type']);
+        $content = toMysqlStr($_POST['content']);
+        $money = postVal('money');
+        $gift = postVal('gift');
+        $lasting = postVal('lasting');
+        $deadline = postVal('deadline');
+        $mysql = new Mysql();
+        $mysql->connect() or exit($error->MYSQL_CONNECT_ERROR);
+        $mysql->query($user, 'money', $GLOBALS['DATABASE_USER'], array('id', $_SESSION['id']), 1);
+        if(intval($user[0]['money']) < $money + $gift){
+            $mysql->close();
+            return $error->BALANCE_TOO_LESS;
+        }
+        $res = $mysql->insert($GLOBALS['DATABASE_INFO'],
+            array('title', 'type', 'content', 'money', 'gift', 'lasting', 'deadline', 'time', 'status', 'userid', 'name', 'phone', 'score'),
+            array($title, $type, $content, $money, $gift, $lasting, $deadline, time(), 0, $_SESSION['id'], toMysqlStr($_SESSION['name']), toMysqlStr($_SESSION['phone']), $_SESSION['score']));
+        if($res){
+            $id = $mysql->query("select LAST_INSERT_ID");
+            $mysql->cmd('update ' . $GLOBALS['DATABASE_USER'] . ' set money=money-'. $money + $gift . 'where id=' . $_SESSION['id']);
+            $mysql->close();
+            return json('code', 0, 'id', $id);
+        }
+        else{
+            $mysql->close();
+            return $error->MYSQL_CONNECT_ERROR;
+        }
+    }
+    function op_cancelOrder(){
+        global $error;
+        if(isPostParaMissing('id'){
+            return $error->PARA_REQUIRED;
+        }
+        if(!isLogin()){
+            return $error->NOT_LOGIN;
+        }
+        $id = postVal('id');
+        $mysql = new Mysql();
+        $mysql->connect() or exit($error->MYSQL_CONNECT_ERROR);
+        $found = $mysql->query($res, '*', $GLOBALS['DATABASE_INFO'], array('id', $id), 1);
+        if($found == 0){
+            $mysql->close();
+            return $error->NO_AUTHORIZATION;
+        }
+        if($res[0]['userid'] != $_SESSION['id'] && $res[0]['userid2'] != $_SESSION['id']){
+            $mysql->close();
+            return $error->NO_AUTHORIZATION;
+        }
+        if(inval($res[0]['status']) >= 2){
+            $mysql->close();
+            return $mysql->CANCEL_INFO_ERROR;
+        }
+        $res = $mysql->update($GLOBALS['DATABASE_INFO'], array('status', 3), array('id', $id));
+        $mysql->close();
+        if($res){
+            declineUserScore(intval($_SESSION['id']), $id);
+            return json('code', 0);
+        }
+        else{
+            return $error->MYSQL_CONNECT_ERROR; 
+        }
+    }
+    function op_finishOrder(){
+        global $error;
+        if(isPostParaMissing('id'){
+            return $error->PARA_REQUIRED;
+        }
+        if(!isLogin()){
+            return $error->NOT_LOGIN;
+        }
+        $id = postVal('id');
+        $mysql = new Mysql();
+        $mysql->connect() or exit($error->MYSQL_CONNECT_ERROR);
+        $found = $mysql->query($res, '*', $GLOBALS['DATABASE_INFO'], array('id', $id), 1);
+        if($found == 0){
+            $mysql->close();
+            return $error->NO_AUTHORIZATION;
+        }
+        if(intval($res[0]['status']) == 0){
+            $mysql->close();
+            return $error->NO_AUTHORIZATION;
+        }
+        if(intval($res[0]['status']) != 1){
+            $mysql->close();
+            return $mysql->FINISH_ORDER_ERROR;
+        }
+        $money = intval($res[0]['money']);
+        $gift = intval($res[0]['gift']);
+        $userid2 = intval($res[0]['userid2']);
+        $res = $mysql->update($GLOBALS['DATABASE_INFO'], array('status', 2), array('id', $id));
+        if(!$res){
+            $mysql->close();
+            return $error->MYSQL_CONNECT_ERROR;
+        }
+        $res = $mysql->cmd('update ' . $GLOBALS['DATABASE_USER'] . ' set money=money+'. $money + $gift . 'where id=' . $userid2]);
+        $mysql->close();
+        if(!$res){
+            return $error->MYSQL_CONNECT_ERROR;
+        }
+        increseUserScore(intval($_SESSION['id']), $id);
+        increseUserScore($userid2, $id);
+        return json('code', 0);
     }
 ?>

@@ -2,7 +2,6 @@
     require('mysqlcfg.php');
 
     class Mysql{
-
         var $conn;
         var $connected = false;
         function connect(){
@@ -48,6 +47,39 @@
                 $count++;
             }
             return $count;
+        }
+        function insert($table, $key, $value){
+            if(!$this->connected){
+                return 0;
+            }
+            if(count($key) != count($value) || count($value) == 0){
+                return 0;
+            }
+            $keys = implode(", ", $key);
+            $values = implode(", ", $value);
+            $queryString = "insert into $table ($keys) VALUES($values)"
+            $query = mysqli_query($this->conn, $queryString);
+            return $query ? 1 : 0;
+        }
+        function update($table, $set, $where){
+            if(!$this->connected){
+                return 0;
+            }
+            $queryString = "update $table set " . $set[0] . "=" . $set[1];
+            for($i = 2; $i < count($set); $i += 2){
+                $queryString .= ", " . $set[$i] . "=" . $set[$i + 1];
+            }
+            if(isset($where)){
+                $queryString .= " where " . $where[0] . "=" . $where[1];
+                for($i = 2; $i < count($where); $i += 2){
+                    $queryString .= " and " . $where[$i] . "=" . $where[$i + 1];
+                }
+            }
+            $query = mysqli_query($this->conn, $queryString);
+            return $query ? 1 : 0;
+        }
+        function cmd($str){
+            return mysqli_query($this->conn, $str) ? 1 : 0;
         }
     }
 ?>

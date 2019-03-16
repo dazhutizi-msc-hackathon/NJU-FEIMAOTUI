@@ -1,6 +1,11 @@
 <?php
-    function isPostParaMissing($str){
-        return !isset($_POST[$str]);
+    function isPostParaMissing(){
+        for($i = 0; $i < func_num_args(); $i ++){
+            if(!isset($_POST[func_get_arg($i)])){
+                return true;
+            }
+        }
+        return false;
     }
     function isLogin(){
         return isset($_SESSION['id']) && $_SESSION['id'] != 0;
@@ -15,5 +20,14 @@
     }
     function postVal($str){
         return intval(trim($_POST[$str]));
+    }
+    function toMysqlStr($str){
+        return "'$str'";
+    }
+    function declineUserScore($uid, $iid){
+        //降低用户评分
+    }
+    function increseUserScore($uid, $iid){
+        //提升用户评分
     }
 ?>

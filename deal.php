@@ -11,6 +11,7 @@
     }
 
     if(function_exists('op_'.$_POST["op"])){
+        refreshDatabase();
         $op_function = 'op_'.$_POST["op"];
         exit($op_function());
     }
