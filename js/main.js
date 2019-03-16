@@ -67,6 +67,10 @@ function showInfoList(){
         dataType:"JSON",
         data:{"op":"getInfoList" },
         success:function(data){
+            if(data['code']==2){
+                refresh();
+            }
+            else{
             var info=data.infos;
             for(var i=0;i<info.length;i++){
                 var adding=$('<div class="list-group" id=info[i].id></div>');
@@ -79,7 +83,7 @@ function showInfoList(){
                                 "<div style=\"float:right\">预计耗时:"+info[i].lasting+"</div><br>"+
                                 "送达截止时间:"+info[i].deadline+"<br><br></p></span></a>";
                 document.write(adding);
-            }
+            }}
         },
         error:function(Error){
             alert(Error);
@@ -98,7 +102,7 @@ function showOrderListInAcceptedBill(){
         },
         success:function(data){
             if(data.code==2){
-                /*这里是登录界面*/
+                refresh();
 
 
 
@@ -176,7 +180,7 @@ function showOrderListInPublishedBill(){
     },
     success:function(data){
         if(data['code']==2){
-            /*这里是登录界面*/
+            refresh();
 
 
 
@@ -225,7 +229,7 @@ function showOrderInPublishedBill(s,id){
         },
         success:function(data){
             if(data['code']==2){
-                /* 这是登录界面*/
+                refresh();
 
             }else{
             var status;
@@ -281,7 +285,7 @@ function showOrderInAcceptedBill(s,id){
             },
             success:function(data){
                 if(data['code']==2){
-                    /* 这是登录界面*/
+                    refresh();
 
                 }else{
                 var status;
@@ -367,7 +371,7 @@ function finishOrder(s,id){
             }
 
             if(code==2){
-                /*这里是登录界面*/
+                refresh();
             }
 
             if(code==3){
