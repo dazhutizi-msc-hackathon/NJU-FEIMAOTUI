@@ -151,7 +151,7 @@
                             'finishtime' => $r['finishtime']
                         );
         }
-        return json('code', 0, 'infos', $arr);
+        return json('code', 0, 'orders', $arr);
     }
     function op_getOrderById(){
         global $error;
@@ -256,7 +256,7 @@
             $id = $mysql->cmd("select LAST_INSERT_ID");
             $mysql->cmd('update ' . $GLOBALS['DATABASE_USER'] . ' set money=money-'. ($money + $gift) . ' where id=' . $_SESSION['id']);
             $mysql->close();
-            return json('c ode', 0, 'id', $id);
+            return json('code', 0, 'id', $id);
         }
         else{
             $mysql->close();

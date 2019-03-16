@@ -26,6 +26,10 @@ $(function(){
             refresh();
         });
     });
+    
+    $('#submitBillBtn').click(function(){
+        publishInfo();
+    });
 });
 
 function send(dat, succ){
@@ -60,7 +64,6 @@ function displayError(){
 
 function showInfoList(){
     //获取信息列表并显示
-
     $.ajax({
         url:"deal.php",
         type:"POST",
@@ -94,47 +97,53 @@ function showInfoList(){
 
 function showOrderListInAcceptedBill(){
     //获取我发布的/接取的订单列表并显示
-    $.ajax({
-        url="../deal.php",
-        type="POST",
-        dataType="JSON",
-        data={
-            "op":"getOrderList",
-            "acceptbyme":1
-        },
-        success:function(data){
-            if(data.code==2){
-                refresh();
-
-
-
-            }
-            else{
-                var orders = data['orders'];
-                $("#overallInterface").append('<div id="acceptedOrder" class="oPages" style="width: 100%;height: 100%;margin:0;"><div id="acceptedList"></div></div>');
-
-                for(var i=0;i<orders.length;i++){
-                    var adding=$('<div class="list-group"> </div>');
-                    adding.innerHTML='<a  class="list-group-item active">'+
-                        '<h4 class="list-group-item-heading">'+orders[i].title+" &yen;"+orders[i].gift+"<span style=\"float:right\">"+
-                            orders[i].type+"</span></h4></a>"+'<span class=\"list-group-item\">'+"<h4 class=\"list-group-item-heading\">"+"发布人:"+orders[i].name
-                            +'<br><p class="list-group-item-text" style="float:right">发布时间:'+orders[i].time+'<br>截止时间:'+orders[i].deadline;
-                        $('#acceptedOrder').append(adding);
-                    if(orders[i].status==1)
-                    $('#acceptedOrder').append('<p style="color:#00ccff;float:right;">正在进行</p>'+
-                        '<button type="button" class="btn btn-primary" onclick="showOrderInAcceptedBill($(this).parent(),$(this).val())" style="float: right" value=orders[i].id>订单详情</button>'
-                        );
-                    if(orders[i].status==2)
-                    $('#acceptedOrder').append('<p style="color:#00ff00;float:right">已完成<br><span style="color:#000000;">完成时间:'+orders[i].finishtime+'<span></p>');
-                    if(orders[i].status==3)
-                    $('#acceptedOrder').append('<p style="color:#ff0000;float:right">已取消</p>');
-                }
-            }
-
+    send({'op': 'getOrderList', 'acceptbyme': '0'}, function(data){
+        par = $('#publishedList');
+        par.html("");
+        dat = data['orders'];
+        str = '';
+        for(i=0; i<dat.length; ++i){
+            str = str + '<div class="list-group"><a href="#" class="list-group-item active"><h4 class="list-group-item-heading">';
+            str = str + dat[i]['title'];
+            str = str + '</h4></a><a href="#" class="list-group-item"><h4 class="list-group-item-heading">';
+            str = str + changeStatus(dat[i]['status']) + '</h4>';
+            str = str + '<div style="float:left">发布时间：' + getLocalTime(dat[i]['time']) + '</div><br>';
+            str = str + '<div style="float:left">赏金：' + dat[i]['gift'] / 100 + '</div><br>';
+            str = str + '<div style="float:left">跑腿类型：' + dat[i]['type'] + '</div><br>';
+            if(dat[i]['name2'])str = str + '<div style="float:left">接取人姓名：' + dat[i]['name2'] + '</div><br>';
+            if(dat[i]['accepttime']>0)str = str + '<div style="float:left">接取时间：' + getLocalTime(dat[i]['accepttime']) + '</div><br>';
+            str = str + '<div style="float:left">截止时间：' + getLocalTime(dat[i]['deadline']) + '</div><br>';
+            if(dat[i]['finishtime']>0)str = str + '<div style="float:left">完成时间：' + getLocalTime(dat[i]['finishtime']) + '</div><br>';
+            str = str + '<div class="btn-group" style="float: right"><button type="button" class="btn btn-default" onclick="showOrder(this.parentNode,' + dat[i]['id'] + ')">订单详情</button>';
+            if(dat[i]['status']<=1)str = str + ' <button type="button" class="btn btn-success" onclick="cancelInfo(' + dat[i]['id'] + ')">取消</button>';
+            if(dat[i]['status']==1)str = str + ' <button type="button" class="btn btn-success" onclick="finishOrder(' + dat[i]['id'] + ')">送达</button>';
+            str = str + '</div><br><br></a></div>';
         }
+        par.html(str);
     });
-
-
+    send({'op': 'getOrderList', 'acceptbyme': '1'}, function(data){
+        par = $('#acceptedList');
+        par.html("");
+        dat = data['orders'];
+        str = '';
+        for(i=0; i<dat.length; ++i){
+            str = str + '<div class="list-group"><a href="#" class="list-group-item active"><h4 class="list-group-item-heading">';
+            str = str + dat[i]['title'];
+            str = str + '</h4></a><a href="#" class="list-group-item"><h4 class="list-group-item-heading">';
+            str = str + changeStatus(dat[i]['status']) + '</h4>';
+            str = str + '<div style="float:left">发布时间：' + getLocalTime(dat[i]['time']) + '</div><br>';
+            str = str + '<div style="float:left">赏金：' + dat[i]['gift'] / 100 + '</div><br>';
+            str = str + '<div style="float:left">跑腿类型：' + dat[i]['type'] + '</div><br>';
+            str = str + '<div style="float:left">发布人姓名：' + dat[i]['name'] + '</div><br>';
+            str = str + '<div style="float:left">接取时间：' + getLocalTime(dat[i]['accepttime']) + '</div><br>';
+            str = str + '<div style="float:left">截止时间：' + getLocalTime(dat[i]['deadline']) + '</div><br>';
+            if(dat[i]['finishtime']>0)str = str + '<div style="float:left">完成时间：' + getLocalTime(dat[i]['finishtime']) + '</div><br>';
+            str = str + '<div class="btn-group" style="float: right"><button type="button" class="btn btn-default" onclick="displayDetails(this.parentNode,' + dat[i]['id'] + ')">订单详情</button>';
+            if(dat[i]['status']==1)str = str + ' <button type="button" class="btn btn-success" onclick="cancelInfo(' + dat[i]['id'] + ')">取消</button>';
+            str = str + '</div><br><br></a></div>';
+        }
+        par.html(str);
+    });
 }
 
 function showLogin(){
@@ -171,53 +180,6 @@ function showInfo(){
 
 }
 
-function showOrderListInPublishedBill(){
-    $.ajax({
-    url="../deal.php",
-    type="POST",
-    dataType="JSON",
-    data={
-        "op":"getOrderList",
-        "acceptbyme":0
-    },
-    success:function(data){
-        if(data['code']==2){
-            refresh();
-
-
-
-        }
-        else{
-            var orders = data['orders'];
-            $("#overallInterface").append('<div id="publishedOrder" class="oPages" style="width: 100%;height: 100%;margin:0;"><div id="publishedList"></div></div>');
-
-            for(var i=0;i<orders.length;i++){
-                var adding=$('<div class="list-group"> </div>');
-                adding.innerHTML='<a  class="list-group-item active">'+
-                    '<h4 class="list-group-item-heading">'+orders[i].title+" &yen;"+orders[i].gift+"<span style=\"float:right\">"+
-                        orders[i].type+"</span></h4></a>"+'<span class=\"list-group-item\">'+"<h4 class=\"list-group-item-heading\">"+"接收人:"+orders[i].name2
-                        +'<br><p class="list-group-item-text" style="float:right">接取时间:'+orders[i].accepttime+'<br>截止时间:'+orders[i].deadline;
-                    $('#publishedOrder').append(adding);
-
-                    if(orders[i].status==0)
-                $('#publishedOrder').append('<p style="color:red;float:right;">等待中</p>'+
-                    '<button type="button" class="btn btn-primary" onclick="showOrderInPublishedBill($(this).parent(),$(this).val())" style="float: right" value=orders[i].id>订单详情</button>'
-                    );
-                if(orders[i].status==1)
-                $('#publishedOrder').append('<p style="color:#00ccff;float:right;">正在配送</p>'+
-                '<button type="button" class="btn btn-primary" onclick="finishOrder($(this).parent(),$(this).val())" style="float: right" value=orders[i].id>签收</button>'+
-                    '<button type="button" class="btn btn-default" onclick="showOrderInPublishedBill($(this).parent(),$(this).val())" style="float: right" value=orders[i].id>订单详情</button>'
-                    
-                    );
-                if(orders[i].status==2)
-                $('#publishedOrder').append('<p style="color:#00ff00;float:right">已完成<br><span style="color:#000000;">完成时间:'+orders[i].finishtime+'<span></p>');
-                if(orders[i].status==3)
-                $('#publishedOrder').append('<p style="color:#ff0000;float:right">已取消</p>');
-            }
-        }
-
-    }
-});}
 
 function showOrderInPublishedBill(s,id){
     $.ajax({
@@ -347,7 +309,23 @@ function hideUserInfo(){
 
 function publishInfo(){
     //发布信息
-
+    send({'op': 'publishInfo', 'title': $('#runTitle').val(), 'type': $('#runType').val(), 'content': $('#runContent').val(), 'money': $('#expense').val() * 100, 'gift': $('#reward').val() * 100, 'lasting': $('#expectedTimeSpan').val() * 60, 'deadline': Date.parse(new Date()) / 1000 + $('#deadline').val() *60}, function(data){
+        if(data['code'] == 0){
+            alert('发布成功');
+            showInfoList();
+            $('#runTitle').val('');
+            $('#runType').val('');
+            $('#runContent').val('');
+            $('#expense').val('');
+            $('#reward').val('');
+            $('#expectedTimeSpan').val('');
+            $('#deadline').val('');
+        }
+        else{
+            displayError();
+            alert('发布失败');
+        }
+    });
 }
 
 function cancelInfo(){
@@ -388,4 +366,15 @@ function finishOrder(s,id){
 
 function refresh(){
     window.location = 'http://h.chper.cn';
+}
+
+function changeStatus(i){
+    if(i==0)return "等待接单";
+    if(i==1)return "正在完成中";
+    if(i==2)return "已完成";
+    if(i==3)return "已取消";
+}
+
+function getLocalTime(nS) {     
+   return new Date(parseInt(nS) * 1000).toLocaleString().replace(/:\d{1,2}$/,' ');     
 }

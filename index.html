@@ -22,9 +22,7 @@
 <div id="overallPages">
     <!--下面是信息页面-->
     <div id="information" class="oaPages content">
-        <script>
-            showInfoList();
-        </script>
+       
     </div>
 
     <!--下面是订单页面-->
@@ -40,29 +38,42 @@
 
         <div id="inPage">
 
-        <script>
-        showOrderListInPublishedBill();
-        
-       $('#detailedInPublished').on('click',function(){
-                $(this).slideUp();
-                });
-       $('#detailedInAccepted').on('click',function(){
+            <div id="publishedOrder" class="content oPages" style="width: 100%;height: 100%;">
 
-        $(this).slideUp();
-    });
-            </script>
+                <div id="publishedList">
+
+                </div>
+
+
+            </div>
+            
+            <div id="acceptedOrder" class="oPages" style="width: 100%;height: 100%;">
+                
+                 <div id="acceptedList">
+
+                </div>
+                
+            </div>
             
             <div id="pushOrder" class="oPages" style="width: 100%;height: 100%;">
 
                 <div class="container">
                     <form class="form-horizontal" role="form">
+
+                        <div class="form-group">
+                            <label class="col-xs-3 control-label">标题</label>
+                            <div class="col-xs-9" id="items">
+                                <textarea class="form-control" rows="1" style="resize:none" id="runTitle"></textarea>
+                            </div>
+                        </div>
                         <div class="form-group">
                             <label class="col-xs-3 control-label">跑腿类型</label>
                             <div class="col-xs-9">
                                 <select class="form-control" id="runType">
-                                    <option value="0">类型1</option>
-                                    <option value="1">类型2</option>
-                                    <option value="2">类型3</option>
+                                    <option value="买饭/食物">买饭/食物</option>
+                                    <option value="取送物品">取送物品</option>
+                                    <option value="代找人">代找人</option>
+                                    <option value="其他">其他</option>
                                 </select>
                             </div>
                         </div>
@@ -86,22 +97,23 @@
                                 <input type="number" class="form-control" id="reward" min="0" step="0.01">
                             </div>
                         </div>
+
                         <div class="form-group">
-                            <label class="col-xs-3 control-label">预计时间</label>
-                            <div class="col-xs-9">
-                                <input type="time" class="form-control" id="expectedTimeSpan" value="22:20">
+                            <label class="col-xs-3 control-label">预计所需时间(分)</label>
+                            <div class="col-xs-3">
+                                <input type="number" class="form-control" id="expectedTimeSpan" min="0" step="1">
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="col-xs-3 control-label">截止时间</label>
+                            <label class="col-xs-3 control-label">自动取消时间(分钟后)</label>
                             <div class="col-xs-9">
-                                <input type="time" class="form-control" id="deadline" value="22:10">
+                                <input type="number" class="form-control" id="deadline" min="0" step="1">
                             </div>
                         </div>
 
                         <div class="form-group">
                             <div class="col-xs-offset-3 col-sm-8">
-                                <button type="button" onsubmit="return false" onclick="submitBill()" id="submitBillBtn" class="btn btn-success" >确认提交</button>
+                                <button type="button" onsubmit="return false" id="submitBillBtn" class="btn btn-success" >确认提交</button>
                             </div>
                         </div>
                     </form>
