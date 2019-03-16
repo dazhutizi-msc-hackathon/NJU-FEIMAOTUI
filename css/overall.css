@@ -55,3 +55,9 @@ li a:hover,:visited{
 #myPage.acc{
     display: block;
 }
+.info{
+    display: none;
+}
+.info.mActive{
+    display: block;
+}
