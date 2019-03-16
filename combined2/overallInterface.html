@@ -228,9 +228,9 @@
                         </div>
 
                         <div class="form-group">
-                            <label class="col-xs-3 control-label">物品</label>
+                            <label class="col-xs-3 control-label">内容</label>
                             <div class="col-xs-9" id="items">
-                                <textarea class="form-control" rows="4" style="resize:none"></textarea>
+                                <textarea class="form-control" rows="4" style="resize:none" id="runContent"></textarea>
                                 <!--<div class="row item" role="form" style="margin-bottom: 10px">-->
                                 <!--<div class="col-xs-6">-->
                                 <!--<label class="sr-only">物品名称</label>-->
@@ -257,48 +257,68 @@
                         <div class="form-group">
                             <label class="col-xs-3 control-label">花费(元)</label>
                             <div class="col-xs-3">
-                                <input type="number" class="form-control" min="0" step="0.01">
+                                <input type="number" class="form-control" min="0" id="expense" step="0.1">
                             </div>
                         </div>
 
                         <div class="form-group">
                             <label class="col-xs-3 control-label">赏金(元)</label>
                             <div class="col-xs-3">
-                                <input type="number" class="form-control" value="3" min="0" step="0.01">
+                                <input type="number" class="form-control" id="reward" min="0" step="0.01">
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="col-xs-3 control-label">期望送达时间</label>
+                            <label class="col-xs-3 control-label">预计时间</label>
                             <div class="col-xs-9">
-                                <input type="time" class="form-control" value="22:20">
+                                <input type="time" class="form-control" id="expectedTimeSpan" value="22:20">
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="col-xs-3 control-label">自动取消时间</label>
+                            <label class="col-xs-3 control-label">截止时间</label>
                             <div class="col-xs-9">
-                                <input type="time" class="form-control" value="22:10">
+                                <input type="time" class="form-control" id="deadline" value="22:10">
                             </div>
                         </div>
-                        <div class="form-group">
-                            <label class="col-xs-3 control-label">地址</label>
-                            <div class="col-xs-9">
-                                <input type="text" class="form-control">
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="col-xs-3 control-label">留言</label>
-                            <div class="col-xs-9">
-                                <textarea class="form-control" rows="4" style="resize:none"></textarea>
-                            </div>
-                        </div>
+
                         <div class="form-group">
                             <div class="col-xs-offset-3 col-sm-8">
-                                <button type="button" class="btn btn-success" >确认提交</button>
+                                <button type="button" onsubmit="return false" onclick="submitBill()" id="submitBillBtn" class="btn btn-success" >确认提交</button>
                             </div>
                         </div>
                     </form>
                 </div>
+<script>
+function submitBill(){
+    var options=$("#runType option:selected");
 
+    $.ajax({
+        url:"../deal.php",
+        type:"POST",
+        dataType:"JSON",
+        data:{
+            "op":"publishInfo",
+            "type":options.val(),
+            "content":$("#runContent").text(),
+            "money":$("#expense").text(),
+            "gift":$("#reward").text(),
+            "lasting":$("#expectedTimeSpan").text(),
+            "deadline":$("#deadline").text()
+               },
+        success:function(data){
+            if(data.code==2){
+                alert("请先登录");
+
+
+                /*这是登录界面*/
+            }
+            else{
+
+            }
+        }
+    });
+}
+
+</script>
 
             </div>
 
