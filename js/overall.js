@@ -69,7 +69,6 @@ window.onload = function(){
         });
     }
 
-    console.log(mPage)
     // var aDiv=oPage.getElementsByClassName("oPages");
     mTab.onclick=function () {
         mPage.className="acc";
